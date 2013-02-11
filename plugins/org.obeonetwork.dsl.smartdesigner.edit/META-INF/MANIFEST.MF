@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.obeonetwork.dsl.smartdesigner.edit;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.obeonetwork.dsl.smartdesigner.provider.SmartdesignerEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.obeonetwork.dsl.smartdesigner.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.obeonetwork.dsl.smartdesigner;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy
