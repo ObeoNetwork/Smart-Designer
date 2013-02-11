@@ -18,7 +18,7 @@
         <version>1.2.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
   </parent>
-  <groupId>TOGAF-Designer</groupId>
+  <groupId>Smart-Designer</groupId>
   <artifactId>org.obeonetwork.dsl.smartdesigner.feature</artifactId>
   <version>1.2.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
