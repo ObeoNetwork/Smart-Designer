@@ -78,37 +78,42 @@ public abstract class AbstractSelectConnectedElements implements
 			return;
 		}
 		Set<EObject> existingElements = Sets.newHashSet();
-		existingElements.addAll((List)l);
-		
+		existingElements.addAll((List) l);
 
 		Set<EObject> crossReferencedObjects = BasicDiagramUtil
 				.getConnectedElements(graphicalElement);
 
-		Map<EObject, Map<EClass, Set<EObject>>> model = getModel(
-				existingElements, crossReferencedObjects);
-
-		Set<EObject> selectedEObjects = Sets.newHashSet();
-
 		if (crossReferencedObjects.size() > 0) {
-			// Open a dialog box with all the connected elements.
-			SelectConnectedElementsDialog dialog = new SelectConnectedElementsDialog(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getShell(), model, selectedEObjects,
-					"Select connected elements to import",
-					Activator.getConnectedElementsImage(), 400, 400);
-			dialog.open();
-			if (!dialog.isCanceled()) {
-				createNewElements(graphicalElement, selectedEObjects);
+			Map<EObject, Map<EClass, Set<EObject>>> model = getModel(
+					existingElements, crossReferencedObjects);
+			if (model == null) {
+				openNoElementDialogBox();
+			} else {
+				Set<EObject> selectedEObjects = Sets.newHashSet();
+				// Open a dialog box with all the connected elements.
+				SelectConnectedElementsDialog dialog = new SelectConnectedElementsDialog(
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+								.getShell(), model, selectedEObjects,
+						"Select connected elements to import",
+						Activator.getConnectedElementsImage(), 400, 400);
+				dialog.open();
+				if (!dialog.isCanceled()) {
+					createNewElements(graphicalElement, selectedEObjects);
+				}
 			}
 		} else {
-			// There is no connected element => open a dialog box to
-			// inform the user.
-			MessageBox dialog = new MessageBox(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell());
-			dialog.setText("No connected elements");
-			dialog.setMessage("There is not connected elements.");
-			dialog.open();
+			openNoElementDialogBox();
 		}
+	}
+
+	private void openNoElementDialogBox() {
+		// There is no connected element => open a dialog box to
+		// inform the user.
+		MessageBox dialog = new MessageBox(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell());
+		dialog.setText("No connected elements");
+		dialog.setMessage("No connected elements.");
+		dialog.open();
 	}
 
 	private void createNewElements(GraphicalElement container,
@@ -127,17 +132,24 @@ public abstract class AbstractSelectConnectedElements implements
 
 	public abstract Map<EClass, List<EClass>> getArchitectures();
 
+	/**
+	 * @param existingElements
+	 * @param crossReferencedObjects
+	 * @return Null if no element found.
+	 */
 	private final Map<EObject, Map<EClass, Set<EObject>>> getModel(
 			Set<EObject> existingElements, Set<EObject> crossReferencedObjects) {
-		Map<EObject, Map<EClass, Set<EObject>>> result = Maps.newTreeMap(new Comparator<EObject>() {
-			@Override
-			public int compare(EObject o1, EObject o2) {
-				return EMFUtil.retrieveNameFrom(o1).compareTo(EMFUtil.retrieveNameFrom(o2));
-			}
-		});
+		Map<EObject, Map<EClass, Set<EObject>>> result = Maps
+				.newTreeMap(new Comparator<EObject>() {
+					@Override
+					public int compare(EObject o1, EObject o2) {
+						return EMFUtil.retrieveNameFrom(o1).compareTo(
+								EMFUtil.retrieveNameFrom(o2));
+					}
+				});
 
 		Map<EClass, List<EClass>> architectures = this.getArchitectures();
-
+		boolean oneElement = false;
 		for (EObject eObject : crossReferencedObjects) {
 			if (!existingElements.contains(eObject)) {
 				for (Entry<EClass, List<EClass>> entry : architectures
@@ -146,7 +158,7 @@ public abstract class AbstractSelectConnectedElements implements
 						Map<EClass, Set<EObject>> d = result
 								.get(entry.getKey());
 						if (d == null) {
-							d =   Maps.newTreeMap(new Comparator<EClass>() {
+							d = Maps.newTreeMap(new Comparator<EClass>() {
 								@Override
 								public int compare(EClass o1, EClass o2) {
 									return o1.getName().compareTo(o2.getName());
@@ -156,20 +168,26 @@ public abstract class AbstractSelectConnectedElements implements
 						}
 						Set<EObject> eObjects = d.get(eObject.eClass());
 						if (eObjects == null) {
-							eObjects = Sets.newTreeSet(new Comparator<EObject>() {
-								@Override
-								public int compare(EObject o1, EObject o2) {
-									return EMFUtil.retrieveNameFrom(o1).compareTo(EMFUtil.retrieveNameFrom(o2));
-								}
-							});
+							eObjects = Sets
+									.newTreeSet(new Comparator<EObject>() {
+										@Override
+										public int compare(EObject o1,
+												EObject o2) {
+											return EMFUtil
+													.retrieveNameFrom(o1)
+													.compareTo(
+															EMFUtil.retrieveNameFrom(o2));
+										}
+									});
 							d.put(eObject.eClass(), eObjects);
+							oneElement = true;
 						}
 						eObjects.add(eObject);
 					}
 				}
 			}
 		}
-		return result;
+		return oneElement ? result : null;
 	}
 
 }
