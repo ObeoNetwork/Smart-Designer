@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.obeonetwork.dsl.smartdesigner.Diagram;
@@ -203,7 +204,8 @@ public class ConnectorServices {
 	 *         <code>targetObject</code>.
 	 */
 	private int compare(EObject sourceObject, EObject targetObject) {
-		int result = sourceObject.hashCode() - targetObject.hashCode();
+		int result = ((CDOObject) sourceObject).cdoID().compareTo(
+				((CDOObject) targetObject).cdoID());
 		return result;
 	}
 
