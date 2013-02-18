@@ -11,11 +11,14 @@
  */
 package org.obeonetwork.dsl.smartdesigner.design.popups;
 
+import java.awt.event.MouseAdapter;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -94,21 +97,15 @@ public class MagicConnectorPopup extends PopupDialog {
 			list.add(r.getName());
 		Rectangle clientArea = composite.getClientArea();
 		list.setBounds(clientArea.x, clientArea.y, 250, 75);
-		list.addListener(SWT.Selection, new org.eclipse.swt.widgets.Listener() {
-			public void handleEvent(Event e) {
-				int[] selection = list.getSelectionIndices();
-				if (selection.length > 0) {
-					result = refs.get(selection[0]);
+		list.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				if (list.getSelectionIndex() >= 0) {
+					result = refs.get(list.getSelectionIndex());
 					getShell().dispose();
 				}
 			}
 		});
-		list.addListener(SWT.DefaultSelection,
-				new org.eclipse.swt.widgets.Listener() {
-					public void handleEvent(Event e) {
-
-					}
-				});
 		return composite;
 	}
 
@@ -132,7 +129,7 @@ public class MagicConnectorPopup extends PopupDialog {
 					display.sleep();
 				}
 			} catch (Throwable e) {
-				// exceptionHandler.handleException(e);
+				e.printStackTrace();
 			}
 		}
 		if (!display.isDisposed())
