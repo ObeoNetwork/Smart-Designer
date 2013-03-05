@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.obeonetwork.dsl.smartdesigner.Diagram;
+import org.obeonetwork.dsl.smartdesigner.DocumentRoot;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 
 import com.google.common.collect.Sets;
@@ -152,6 +153,72 @@ public class BasicDiagramUtil {
 		Set<EObject> crossReferences = new LinkedHashSet<EObject>(
 				crossReferencesL);
 		return crossReferences;
+	}
+
+	/**
+	 * Returns the DocumentRoot containing the Object. <code>object</code>.
+	 * 
+	 * @param object
+	 *            The Object for which we are looking for the DocumentRoot.
+	 * @return The DocumentRoot containing the Object <code>object</code>.
+	 */
+	public static DocumentRoot getDocumentRoot(EObject object) {
+		DocumentRoot root = null;
+		EObject eo = (EObject) object;
+		while (eo != null && root == null) {
+			if (eo instanceof DocumentRoot) {
+				root = (DocumentRoot) eo;
+			} else {
+				eo = eo.eContainer();
+			}
+		}
+		return root;
+	}
+
+	/**
+	 * Returns the list of graphical elements where the semantic element
+	 * <code>semanticElement</code> appears.
+	 * 
+	 * @param documentRoot
+	 *            The DocumentRoot element of the Basic Designer model that must
+	 *            be considered as the start of the search.
+	 * @param semanticElement
+	 * @return
+	 */
+	public static List<GraphicalElement> getGraphicalElementsWhereSemanticElementAppears(
+			DocumentRoot documentRoot, EObject semanticElement) {
+		List<GraphicalElement> result = new ArrayList<GraphicalElement>();
+		for (Diagram diag : documentRoot.getDiagrams()) {
+			for (GraphicalElement ge : diag.getElements()) {
+				result.addAll(getGraphicalElementsWhereSemanticElementAppears(
+						ge, semanticElement));
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * Returns the list of graphical elements where the semantic element
+	 * <code>semanticElement</code> appears.
+	 * 
+	 * @param graphicalElement
+	 *            The root element that must be considered as the start of the
+	 *            search.
+	 * @param semanticElement
+	 * @return
+	 */
+	private static List<GraphicalElement> getGraphicalElementsWhereSemanticElementAppears(
+			GraphicalElement graphicalElement, EObject semanticElement) {
+		List<GraphicalElement> result = new ArrayList<GraphicalElement>();
+		if (semanticElement.equals(graphicalElement.getSemanticElement())) {
+			result.add(graphicalElement);
+		}
+		for (GraphicalElement ge : graphicalElement.getChild()) {
+			result.addAll(getGraphicalElementsWhereSemanticElementAppears(ge,
+					semanticElement));
+		}
+		return result;
 	}
 
 }
