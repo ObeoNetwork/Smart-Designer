@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.PlatformUI;
+import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 import org.obeonetwork.dsl.smartdesigner.design.popups.DeletePopup;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
@@ -57,40 +58,54 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 	public void execute(Collection<? extends EObject> selections,
 			Map<String, Object> parameters) {
 
-		GraphicalElement graphicalElement = null;
 		Object o = parameters.get("element");
 		if (o instanceof GraphicalElement) {
-			graphicalElement = (GraphicalElement) o;
-		} else {
+			GraphicalElement graphicalElement = (GraphicalElement) o;
+			EObject semanticElement = graphicalElement.getSemanticElement();
+			int result = deleteElement(graphicalElement, semanticElement);
+			if (result == -1) {
+				// Nothing to do.
+			} else if (result == 0) {
+				// Delete the semantic element and the graphical representation
+				if (semanticElement == null) {
+					// The semantic element can be null.
+					removeEObject(graphicalElement);
+				} else {
+					removeEObject(semanticElement);
+					// Delete all the graphical elements that have the object
+					// semanticElement as semantic element.
+					List<GraphicalElement> graphicalElements = BasicDiagramUtil
+							.getGraphicalElementsWhereSemanticElementAppears(
+									BasicDiagramUtil
+											.getDocumentRoot(graphicalElement),
+									semanticElement);
+					for (GraphicalElement ge : graphicalElements) {
+						removeEObject(ge);
+					}
+				}
+			} else if (result == 1) {
+				// Delete only the graphical representation
+				removeEObject(graphicalElement);
+			}
+			// In the case of deleting a diagram
+		} else if (o instanceof Diagram) {
+			Diagram diagram = (Diagram) o;
+			Object parentElement = parameters.get("parentElement");
+			// delete the reference between the parent diagram (container) and
+			// its son (the contained)
+			if (parentElement instanceof GraphicalElement) {
+				((GraphicalElement) parentElement).getDiagrams()
+						.remove(diagram);
+			} else if (parentElement instanceof Diagram) {
+				((Diagram) parentElement).getDiagrams().remove(diagram);
+			}
+
+		}
+
+		else {
 			return;
 		}
 
-		EObject semanticElement = graphicalElement.getSemanticElement();
-		int result = deleteElement(graphicalElement, semanticElement);
-		if (result == -1) {
-			// Nothing to do.
-		} else if (result == 0) {
-			// Delete the semantic element and the graphical representation
-			if (semanticElement == null) {
-				//The semantic element can be null.
-				removeEObject(graphicalElement);
-			} else {
-				removeEObject(semanticElement);
-				// Delete all the graphical elements that have the object
-				// semanticElement as semantic element.
-				List<GraphicalElement> graphicalElements = BasicDiagramUtil
-						.getGraphicalElementsWhereSemanticElementAppears(
-								BasicDiagramUtil
-										.getDocumentRoot(graphicalElement),
-								semanticElement);
-				for (GraphicalElement ge : graphicalElements) {
-					removeEObject(ge);
-				}
-			}
-		} else if (result == 1) {
-			// Delete only the graphical representation
-			removeEObject(graphicalElement);
-		}
 	}
 
 	/**
