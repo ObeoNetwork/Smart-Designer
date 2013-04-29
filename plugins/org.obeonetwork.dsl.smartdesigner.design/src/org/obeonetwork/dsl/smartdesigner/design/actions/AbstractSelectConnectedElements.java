@@ -89,16 +89,15 @@ public abstract class AbstractSelectConnectedElements implements
 			if (model == null) {
 				openNoElementDialogBox();
 			} else {
-				Set<EObject> selectedEObjects = Sets.newHashSet();
 				// Open a dialog box with all the connected elements.
 				SelectConnectedElementsDialog dialog = new SelectConnectedElementsDialog(
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-								.getShell(), model, selectedEObjects,
+								.getShell(), model,
 						"Select connected elements to import",
 						Activator.getConnectedElementsImage(), 400, 400);
 				dialog.open();
 				if (!dialog.isCanceled()) {
-					createNewElements(graphicalElement, selectedEObjects);
+					createNewElements(graphicalElement, dialog.getSelectedEObjects());
 				}
 			}
 		} else {

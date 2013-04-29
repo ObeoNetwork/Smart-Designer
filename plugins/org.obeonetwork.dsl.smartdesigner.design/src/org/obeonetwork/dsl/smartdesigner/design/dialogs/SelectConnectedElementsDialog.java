@@ -11,12 +11,17 @@
  */
 package org.obeonetwork.dsl.smartdesigner.design.dialogs;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -36,62 +41,143 @@ import org.obeonetwork.dsl.smartdesigner.design.util.EMFUtil;
  */
 public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 
+	/**
+	 * A Node class used in the
+	 * 
+	 * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
+	 */
+	private static final class Node {
+
+		/**
+		 * The targeted {@link Object}. It basically comes from
+		 * {@link SelectConnectedElementsDialog#model}.
+		 */
+		private final Object target;
+
+		/**
+		 * The parent {@link Node}.
+		 */
+		private final Node parent;
+
+		/**
+		 * Children {@link Node}.
+		 */
+		private Set<Node> children;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param parent
+		 *            the parent {@link Node}
+		 * @param target
+		 *            the targeted {@link Object}. It basically comes from
+		 *            {@link SelectConnectedElementsDialog#model}
+		 */
+		public Node(Node parent, Object target) {
+			this.parent = parent;
+			this.target = target;
+		}
+
+		/**
+		 * Tells if the given {@link Object} is a {@link Node#target target} of
+		 * the {@link Node#parent parent} path.
+		 * 
+		 * @param obj
+		 *            the {@link Object} to check
+		 * @return <code>true</code> if the given {@link Object} is a
+		 *         {@link Node#target target} of the {@link Node#parent parent}
+		 *         path
+		 */
+		public boolean isOnPath(Object obj) {
+			return target == obj || (parent != null && parent.isOnPath(obj));
+		}
+
+		public Set<Node> getChildren() {
+			if (children == null) {
+				children = new LinkedHashSet<Node>();
+				if (target instanceof Entry) {
+					if (((Entry<?, ?>) target).getValue() instanceof Map) {
+						final Set<Entry> entrySet = ((Map) ((Entry) target)
+								.getValue()).entrySet();
+						for (Entry entry : entrySet) {
+							children.add(new Node(this, entry));
+						}
+					} else if (((Entry) target).getValue() instanceof Set) {
+						for (Object obj : ((Set) ((Entry) target).getValue())) {
+							children.add(new Node(this, obj));
+						}
+					}
+				} else if (target instanceof EObject) {
+					for (EObject eObj : getRelatedElements((EObject) target)) {
+						children.add(new Node(this, eObj));
+					}
+				}
+			}
+			return children;
+		}
+
+		/**
+		 * @param parentElement
+		 */
+		protected Set<EObject> getRelatedElements(EObject parentElement) {
+			Set<EObject> res = new LinkedHashSet<EObject>();
+			for (EReference eRef : parentElement.eClass().getEAllReferences()) {
+				Object value = parentElement.eGet(eRef);
+				if (value instanceof EObject) {
+					if (!isOnPath(value)) {
+						res.add((EObject) value);
+					}
+				} else if (value instanceof List<?>) {
+					for (Object o : (List<?>) value) {
+						if (o instanceof EObject) {
+							if (!isOnPath(o)) {
+								res.add((EObject) o);
+							}
+						}
+					}
+				}
+			}
+			return res;
+		}
+	}
+
 	private Map<EObject, Map<EClass, Set<EObject>>> model;
 
-	private final Set<EObject> selectedEObjects;
+	private List<Node> roots;
+
+	/**
+	 * Selected {@link Node}.
+	 */
+	private final Set<Node> selectedNodes = new HashSet<Node>();
 
 	public SelectConnectedElementsDialog(Shell parent,
-			Map<EObject, Map<EClass, Set<EObject>>> model,
-			Set<EObject> selectedEObjects, String title, Image image,
-			int width, int height) {
+			Map<EObject, Map<EClass, Set<EObject>>> model, String title,
+			Image image, int width, int height) {
 		super(parent, title, image, width, height);
 		this.model = model;
-		this.selectedEObjects = selectedEObjects;
 	}
 
 	public void setSelected(Object element, boolean selected) {
+		Object target = ((Node) element).target;
 		if (selected) {
-			if (element instanceof Entry) {
-				Entry entry = (Entry) element;
-				if (entry.getValue() instanceof Set) {
-					Set<EObject> l = (Set<EObject>) entry.getValue();
-					for (EObject ge : l) {
-						selectedEObjects.add(ge);
-					}
-				} else if (entry.getValue() instanceof Map) {
-					Map<EClass, Set<EObject>> map = (Map<EClass, Set<EObject>>) entry
-							.getValue();
-					for (Entry entry2 : map.entrySet()) {
-						Set<EObject> l = (Set<EObject>) entry2.getValue();
-						for (EObject ge : l) {
-							selectedEObjects.add(ge);
-						}
-					}
+			if (target instanceof Entry) {
+				selectedNodes.addAll(((Node) element).getChildren());
+			} else if (target instanceof EObject) {
+				Node node = ((Node) element);
+				while (node != null) {
+					selectedNodes.add(node);
+					node = node.parent;
 				}
-			} else if (element instanceof EObject) {
-				selectedEObjects.add((EObject) element);
 			}
-
 		} else {
-			if (element instanceof Entry) {
-				Entry entry = (Entry) element;
-				if (entry.getValue() instanceof Set) {
-					Set<EObject> l = (Set<EObject>) entry.getValue();
-					for (EObject ge : l) {
-						selectedEObjects.remove(ge);
-					}
-				} else if (entry.getValue() instanceof Map) {
-					Map<EClass, Set<EObject>> map = (Map<EClass, Set<EObject>>) entry
-							.getValue();
-					for (Entry entry2 : map.entrySet()) {
-						Set<EObject> l = (Set<EObject>) entry2.getValue();
-						for (EObject ge : l) {
-							selectedEObjects.remove(ge);
-						}
-					}
+			if (target instanceof Entry) {
+				selectedNodes.removeAll(((Node) element).getChildren());
+			} else if (target instanceof EObject) {
+				Node node = ((Node) element);
+				while (node != null) {
+					selectedNodes.remove(node);
+					node = node.parent;
 				}
-			} else if (element instanceof EObject) {
-				selectedEObjects.remove((EObject) element);
 			}
 		}
 	}
@@ -113,112 +199,53 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 
 			@Override
 			public boolean hasChildren(Object element) {
-				if ((element instanceof Entry) || (element instanceof Map)
-						|| (element instanceof Set)) {
-					return true;
-				}
-				return false;
+				return ((Node) element).getChildren().size() > 0;
 			}
 
 			@Override
 			public Object getParent(Object element) {
-				throw new IllegalAccessError();
+				return ((Node) element).parent;
 			}
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				return model.entrySet().toArray();
+
+				if (roots == null) {
+					roots = new ArrayList<Node>();
+
+					for (Entry<EObject, Map<EClass, Set<EObject>>> entry : model
+							.entrySet()) {
+						roots.add(new Node(null, entry));
+					}
+				}
+
+				return roots.toArray();
 			}
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
-				if (parentElement instanceof Entry) {
-					Entry entry = (Entry) parentElement;
-					if (entry.getValue() instanceof Map) {
-						return ((Map) entry.getValue()).entrySet().toArray();
-					} else if (entry.getValue() instanceof Set) {
-						return ((Set) entry.getValue()).toArray();
-					}
-				} else if (parentElement instanceof EObject) {
-					return null;
-				}
-				return null;
+				return ((Node) parentElement).getChildren().toArray();
 			}
+
 		};
 	}
 
 	public ICheckStateProvider createCheckStateProvider() {
 		return new ICheckStateProvider() {
 			public boolean isGrayed(Object element) {
-				// Non leaf nodes
-				if (element instanceof Entry) {
-					Entry entry = (Entry) element;
-					if (entry.getValue() instanceof Set) {
-						int totalSize = ((Set) entry.getValue()).size();
-						int numberOfSelectedElement = 0;
-						for (EObject ge : (Set<EObject>) entry.getValue()) {
-							if (selectedEObjects.contains(ge)) {
-								numberOfSelectedElement++;
-							}
-						}
-						return (numberOfSelectedElement > 0 && numberOfSelectedElement < totalSize);
-					} else if (entry.getValue() instanceof Map) {
-						Map<EClass, Set<EObject>> map = (Map<EClass, Set<EObject>>) entry
-								.getValue();
-						int totalSize = 0;
-						int numberOfSelectedElement = 0;
-						for (Entry<EClass, Set<EObject>> entry2 : map
-								.entrySet()) {
-							Set<EObject> set = entry2.getValue();
-							totalSize = totalSize + set.size();
-							for (EObject ge : set) {
-								if (selectedEObjects.contains(ge)) {
-									numberOfSelectedElement++;
-								}
-							}
-						}
-						return (numberOfSelectedElement > 0 && numberOfSelectedElement < totalSize);
+
+				int nbContained = 0;
+				for (Node child : ((Node) element).getChildren()) {
+					if (selectedNodes.contains(child)) {
+						++nbContained;
 					}
 				}
-				// Leaf nodes
-				else if (element instanceof EObject) {
-					return false;
-				}
-				return false;
+				return selectedNodes.contains(element) && nbContained > 0
+						&& nbContained < ((Node) element).getChildren().size();
 			}
 
 			public boolean isChecked(Object element) {
-				if (element instanceof Entry) {
-					Entry entry = (Entry) element;
-					if (entry.getValue() instanceof Set) {
-						int numberOfSelectedElement = 0;
-						for (EObject ge : (Set<EObject>) entry.getValue()) {
-							if (selectedEObjects.contains(ge)) {
-								numberOfSelectedElement++;
-							}
-						}
-						return numberOfSelectedElement > 0;
-					} else {
-						if (entry.getValue() instanceof Map) {
-							Map<EClass, Set<EObject>> map = (Map<EClass, Set<EObject>>) entry
-									.getValue();
-							int numberOfSelectedElement = 0;
-							for (Entry<EClass, Set<EObject>> entry2 : map
-									.entrySet()) {
-								Set<EObject> set = entry2.getValue();
-								for (EObject ge : set) {
-									if (selectedEObjects.contains(ge)) {
-										numberOfSelectedElement++;
-									}
-								}
-							}
-							return numberOfSelectedElement > 0;
-						}
-					}
-				} else if (element instanceof EObject) {
-					return selectedEObjects.contains(element);
-				}
-				return false;
+				return selectedNodes.contains(element);
 			}
 
 		};
@@ -234,32 +261,52 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 		return new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof Entry) {
-					Object key = ((Entry) element).getKey();
+				final Object target = ((Node) element).target;
+				if (target instanceof Entry) {
+					Object key = ((Entry<?, ?>) target).getKey();
 					if (key instanceof EClass) {
-						return BasicDiagramUtil.splitCamelCase(((EClass) key).getName());
+						return BasicDiagramUtil.splitCamelCase(((EClass) key)
+								.getName());
 					}
-				} else if (element instanceof EObject) {
-					return EMFUtil.retrieveNameFrom((EObject) element);
+				} else if (target instanceof EObject) {
+					return EMFUtil.retrieveNameFrom((EObject) target);
 				}
 				return null;
 			}
 
 			@Override
 			public Image getImage(Object element) {
-				if (element instanceof Entry) {
-					Entry entry = (Entry) element;
+				final Object target = ((Node) element).target;
+				if (target instanceof Entry) {
+					Entry<?, ?> entry = (Entry<?, ?>) target;
 					if (entry.getKey() instanceof EClass) {
 						EClass eClass = (EClass) entry.getKey();
 						EObject o = EcoreUtil.create(eClass);
 						return EMFUtil.getImage(o);
 					}
-				} else if (element instanceof EObject) {
-					return EMFUtil.getImage((EObject) element);
+				} else if (target instanceof EObject) {
+					return EMFUtil.getImage((EObject) target);
 				}
 				return null;
 			}
 		};
+	}
+
+	/**
+	 * Gets selected {@link EObject}.
+	 * 
+	 * @return selected {@link EObject}
+	 */
+	public Set<EObject> getSelectedEObjects() {
+		Set<EObject> res = new HashSet<EObject>();
+
+		for (Node node : selectedNodes) {
+			if (node.target instanceof EObject) {
+				res.add((EObject) node.target);
+			}
+		}
+
+		return res;
 	}
 
 }
