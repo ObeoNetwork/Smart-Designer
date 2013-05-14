@@ -13,6 +13,7 @@ package org.obeonetwork.dsl.smartdesigner.design.dialogs;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,12 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 		private final Node parent;
 
 		/**
+		 * The relation that connect the {@link Node#parent parent} to its
+		 * {@link Node#children}. For instance an {@link EReference}.
+		 */
+		private final EObject parentRelation;
+
+		/**
 		 * Children {@link Node}.
 		 */
 		private Set<Node> children;
@@ -73,8 +80,9 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 		 *            the targeted {@link Object}. It basically comes from
 		 *            {@link SelectConnectedElementsDialog#model}
 		 */
-		public Node(Node parent, Object target) {
+		public Node(Node parent, EObject parentRelation, Object target) {
 			this.parent = parent;
+			this.parentRelation = parentRelation;
 			this.target = target;
 		}
 
@@ -100,16 +108,19 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 						final Set<Entry> entrySet = ((Map) ((Entry) target)
 								.getValue()).entrySet();
 						for (Entry entry : entrySet) {
-							children.add(new Node(this, entry));
+							children.add(new Node(this, null, entry));
 						}
 					} else if (((Entry) target).getValue() instanceof Set) {
 						for (Object obj : ((Set) ((Entry) target).getValue())) {
-							children.add(new Node(this, obj));
+							children.add(new Node(this, null, obj));
 						}
 					}
 				} else if (target instanceof EObject) {
-					for (EObject eObj : getRelatedElements((EObject) target)) {
-						children.add(new Node(this, eObj));
+					for (Entry<EObject, Set<EObject>> entry : getRelatedElements(
+							(EObject) target).entrySet()) {
+						for (EObject eObj : entry.getValue()) {
+							children.add(new Node(this, entry.getKey(), eObj));
+						}
 					}
 				}
 			}
@@ -117,21 +128,27 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 		}
 
 		/**
-		 * @param parentElement
+		 * Gets the {@link Map} of relation to related elements.
+		 * 
+		 * @param element
+		 *            the {@link EObject element} to use as start point
+		 * 
+		 * @return the {@link Map} of relation to related elements
 		 */
-		protected Set<EObject> getRelatedElements(EObject parentElement) {
-			Set<EObject> res = new LinkedHashSet<EObject>();
-			for (EReference eRef : parentElement.eClass().getEAllReferences()) {
-				Object value = parentElement.eGet(eRef);
+		protected Map<EObject, Set<EObject>> getRelatedElements(EObject element) {
+			Map<EObject, Set<EObject>> res = new LinkedHashMap<EObject, Set<EObject>>();
+			for (EReference eRef : element.eClass().getEAllReferences()) {
+				Object value = element.eGet(eRef);
+				res.put(eRef, new LinkedHashSet<EObject>());
 				if (value instanceof EObject) {
 					if (!isOnPath(value)) {
-						res.add((EObject) value);
+						res.get(eRef).add((EObject) value);
 					}
 				} else if (value instanceof List<?>) {
 					for (Object o : (List<?>) value) {
 						if (o instanceof EObject) {
 							if (!isOnPath(o)) {
-								res.add((EObject) o);
+								res.get(eRef).add((EObject) o);
 							}
 						}
 					}
@@ -215,7 +232,7 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 
 					for (Entry<EObject, Map<EClass, Set<EObject>>> entry : model
 							.entrySet()) {
-						roots.add(new Node(null, entry));
+						roots.add(new Node(null, null, entry));
 					}
 				}
 
@@ -269,7 +286,15 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 								.getName());
 					}
 				} else if (target instanceof EObject) {
-					return EMFUtil.retrieveNameFrom((EObject) target);
+					StringBuilder label = new StringBuilder(512);
+					label.append(EMFUtil.retrieveNameFrom((EObject) target));
+					final EObject parentRelation = ((Node) element).parentRelation;
+					if (parentRelation != null) {
+						label.append(" (");
+						label.append(EMFUtil.retrieveNameFrom(parentRelation));
+						label.append(")");
+					}
+					return label.toString();
 				}
 				return null;
 			}

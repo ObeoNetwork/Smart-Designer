@@ -68,18 +68,19 @@ public abstract class AbstractTreeDialog extends Dialog {
 	public int open() {
 		Shell parent = getParent();
 		final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER
-				| SWT.APPLICATION_MODAL | SWT.SHEET);
+				| SWT.APPLICATION_MODAL | SWT.SHEET | SWT.RESIZE);
 		shell.setSize(this.width, this.height);
 
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		shell.setLayout(gridLayout);
+		shell.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		shell.setLayout(new GridLayout(1, true));
 
 		shell.setText(title);
 		shell.setImage(image);
 
 		org.eclipse.swt.widgets.Composite container = new Composite(shell,
-				SWT.NULL);
+				SWT.NONE);
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		container.setLayout(new GridLayout(1, true));
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory
@@ -87,14 +88,14 @@ public abstract class AbstractTreeDialog extends Dialog {
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-		choosedViewer = new CheckboxTreeViewer(container); // , SWT.BORDER |
-															// SWT.V_SCROLL |
-															// SWT.MULTI
+		choosedViewer = new CheckboxTreeViewer(container, SWT.BORDER);
+
 		Tree tree = choosedViewer.getTree();
 		choosedViewer.setLabelProvider(createLabelProvider());
 		contentProvider = createAdapterFactoryContentProvider(adapterFactory);
 		choosedViewer.setContentProvider(contentProvider);
-		tree.setBounds(5, 5, this.width-25, this.height-100);
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// tree.setBounds(5, 5, this.width-25, this.height-100);
 
 		choosedViewer.setCheckStateProvider(createCheckStateProvider());
 		choosedViewer.addCheckStateListener(new ICheckStateListener() {
@@ -164,7 +165,7 @@ public abstract class AbstractTreeDialog extends Dialog {
 		}
 		return SWT.OK;
 	}
-	
+
 	public boolean isCanceled() {
 		return isCanceled;
 	}
