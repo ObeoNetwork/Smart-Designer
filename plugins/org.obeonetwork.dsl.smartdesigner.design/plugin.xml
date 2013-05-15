@@ -31,4 +31,7 @@ Contributors:
              id="org.obeonetwork.dsl.smartdesigner.design.actions.DeleteGraphicalElement">
        </javaActions>
   </extension>
+  
+  <extension-point id="connectedElements" name="Connected elements" schema="schema/connectedElements.exsd"/>
+  
 </plugin>

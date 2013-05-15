@@ -11,9 +11,13 @@
  */
 package org.obeonetwork.dsl.smartdesigner.design;
 
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsExtensionRegistry;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsRegistryListener;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -23,11 +27,17 @@ import org.osgi.framework.BundleContext;
  * 
  */
 public class Activator extends AbstractUIPlugin {
+	
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.obeonetwork.dsl.smartdesigner.design";
 
 	// The shared instance
 	private static Activator plugin;
+
+	/**
+	 * The registry listener that will be used to listen to extension changes.
+	 */
+	private ConnectedElementsRegistryListener registryListener = new ConnectedElementsRegistryListener();
 
 	/**
 	 * The constructor
@@ -45,6 +55,12 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		final IExtensionRegistry registry = Platform.getExtensionRegistry();
+		registry.addListener(
+				registryListener,
+				ConnectedElementsRegistryListener.CONNECTED_ELEMENTS_EXTENSION_POINT);
+		registryListener.parseInitialContributions();
 	}
 
 	/*
@@ -57,6 +73,10 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+
+		final IExtensionRegistry registry = Platform.getExtensionRegistry();
+		registry.removeListener(registryListener);
+		ConnectedElementsExtensionRegistry.clearRegistry();
 	}
 
 	/**
@@ -82,11 +102,12 @@ public class Activator extends AbstractUIPlugin {
 		}
 		return imageDescriptor.createImage(true);
 	}
-	
+
 	/**
 	 * Creates and returns the "shade graphical element" image.
 	 * 
-	 * @return a new "shade graphical element" image. Null if no image could be found.
+	 * @return a new "shade graphical element" image. Null if no image could be
+	 *         found.
 	 */
 	public static Image getShadeGraphicalElementImage() {
 		ImageDescriptor imageDescriptor = AbstractUIPlugin
@@ -97,11 +118,12 @@ public class Activator extends AbstractUIPlugin {
 		}
 		return imageDescriptor.createImage(true);
 	}
-	
+
 	/**
 	 * Creates and returns the "connected elements" image.
 	 * 
-	 * @return a new "connected elements" image. Null if no image could be found.
+	 * @return a new "connected elements" image. Null if no image could be
+	 *         found.
 	 */
 	public static Image getConnectedElementsImage() {
 		ImageDescriptor imageDescriptor = AbstractUIPlugin
@@ -112,7 +134,7 @@ public class Activator extends AbstractUIPlugin {
 		}
 		return imageDescriptor.createImage(true);
 	}
-	
+
 	/**
 	 * Creates and returns the "architecture" image.
 	 * 

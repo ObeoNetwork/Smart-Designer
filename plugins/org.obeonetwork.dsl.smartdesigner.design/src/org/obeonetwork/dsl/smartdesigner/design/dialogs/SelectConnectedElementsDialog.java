@@ -32,6 +32,8 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsExtensionDescriptor;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsExtensionRegistry;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
 import org.obeonetwork.dsl.smartdesigner.design.util.EMFUtil;
 
@@ -152,6 +154,15 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 							}
 						}
 					}
+				}
+			}
+			for (ConnectedElementsExtensionDescriptor extension : ConnectedElementsExtensionRegistry
+					.getRegisteredExtensions()) {
+				final Map<EObject, Set<EObject>> relatedElements = extension
+						.getConnectedElementsProvider().getRelatedElements(
+								element);
+				if (relatedElements != null) {
+					res.putAll(relatedElements);
 				}
 			}
 			return res;

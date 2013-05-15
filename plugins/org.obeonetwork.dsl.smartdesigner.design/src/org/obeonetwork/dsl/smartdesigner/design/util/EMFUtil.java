@@ -12,6 +12,8 @@
 package org.obeonetwork.dsl.smartdesigner.design.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -21,8 +23,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -38,38 +38,65 @@ import org.osgi.framework.FrameworkUtil;
 public class EMFUtil {
 
 	/**
+	 * Predefined feature names used to retrieve names from {@link EBoject}s.
+	 */
+	private static final Collection<String> FEATURE_NAMES = Arrays
+			.asList(new String[] { "name", "nom", "label", "libellé", "libelle" });
+
+	/**
 	 * Tries to find a label for the given object.
 	 * 
 	 * @param object
-	 *            the object
-	 * @return
+	 *            the {@link EObject}
+	 * @return a label for the given object
 	 */
 	public static String retrieveNameFrom(EObject object) {
 		if (object == null) {
 			return "";
 		} else {
 			EClass eClass = object.eClass();
-			EStructuralFeature feature = eClass.getEStructuralFeature("name");
-			if (!(feature instanceof EAttribute)) {
-				feature = eClass.getEStructuralFeature("nom");
-				if (!(feature instanceof EAttribute)) {
-					if (!(feature instanceof EAttribute)) {
-						feature = null;
-						for (EStructuralFeature f : eClass.getEAllAttributes()) {
-							if (f instanceof EAttribute) {
-								if (String.class == ((EAttribute) f).getEType()
-										.getInstanceClass()) {
-									feature = f;
-									break;
-								}
-							}
-						}
+			// First attempt : try to use a predefined feature name
+			for (String featureName : FEATURE_NAMES) {
+				String result = getAttributeValue(object,
+						eClass.getEStructuralFeature(featureName));
+				if (result != null) {
+					return result;
+				}
+			}
+			// Second attempt : try to use the first non null string feature
+			for (EStructuralFeature f : eClass.getEAllAttributes()) {
+				if (String.class == ((EAttribute) f).getEType()
+						.getInstanceClass()) {
+					String result = getAttributeValue(object, f);
+					if (result != null) {
+						return result;
 					}
 				}
 			}
-			return (feature != null) ? String.valueOf((object.eGet(feature)))
-					: eClass.getName();
+			// At last, use the EClass name
+			return eClass.getName();
 		}
+	}
+
+	/**
+	 * Retrieves e feature value.
+	 * 
+	 * @param eObject
+	 *            the object to read.
+	 * @param feature
+	 *            the feature to read.
+	 * @return the feature value or null if the feature is not an
+	 *         {@link EAttribute}.
+	 */
+	private static String getAttributeValue(EObject eObject,
+			EStructuralFeature feature) {
+		if (feature instanceof EAttribute) {
+			Object rawResult = eObject.eGet(feature);
+			if (rawResult != null) {
+				return String.valueOf(rawResult);
+			}
+		}
+		return null;
 	}
 
 	/**
