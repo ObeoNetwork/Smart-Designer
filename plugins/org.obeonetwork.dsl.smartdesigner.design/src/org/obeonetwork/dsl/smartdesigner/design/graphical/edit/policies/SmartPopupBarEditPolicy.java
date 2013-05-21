@@ -59,7 +59,7 @@ public class SmartPopupBarEditPolicy extends ViewPointPopupBarEditPolicy {
 	 * Predefined feature names used to retrieve names from {@link EBoject}s.
 	 */
 	private static final Collection<String> ALLOWED_TOOL_LABELS = Arrays
-			.asList("Connect", "Connected objects");
+			.asList("Connected objects");
 
 	/**
 	 * {@inheritDoc}
