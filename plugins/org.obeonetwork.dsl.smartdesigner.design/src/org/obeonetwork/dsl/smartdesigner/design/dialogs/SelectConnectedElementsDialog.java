@@ -188,24 +188,47 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 	public void setSelected(Object element, boolean selected) {
 		Object target = ((Node) element).target;
 		if (selected) {
-			if (target instanceof Entry) {
-				selectedNodes.addAll(((Node) element).getChildren());
-			} else if (target instanceof EObject) {
-				Node node = ((Node) element);
-				while (node != null) {
-					selectedNodes.add(node);
-					node = node.parent;
-				}
+			if (target instanceof Entry || target instanceof Set) {
+				selectToEObjectFirstLevel((Node) element);
+			}
+			Node node = ((Node) element);
+			while (node != null && selectedNodes.add(node)) {
+				node = node.parent;
 			}
 		} else {
-			if (target instanceof Entry) {
-				selectedNodes.removeAll(((Node) element).getChildren());
-			} else if (target instanceof EObject) {
-				Node node = ((Node) element);
-				while (node != null) {
+			if (target instanceof Entry || target instanceof Set) {
+				unselectToEObjectFirstLevel((Node) element);
+			}
+			Node node = ((Node) element);
+			while (node != null) {
+				if (getNumberOfSelectedChildren(node) == 0) {
 					selectedNodes.remove(node);
 					node = node.parent;
+				} else {
+					break;
 				}
+			}
+		}
+	}
+
+	private void selectToEObjectFirstLevel(Node element) {
+		selectedNodes.add(element);
+		for (Node child : element.getChildren()) {
+			if (child.target instanceof EObject) {
+				selectedNodes.add(child);
+			} else {
+				selectToEObjectFirstLevel(child);
+			}
+		}
+	}
+
+	private void unselectToEObjectFirstLevel(Node element) {
+		selectedNodes.remove(element);
+		for (Node child : element.getChildren()) {
+			if (child.target instanceof EObject) {
+				selectedNodes.remove(child);
+			} else {
+				unselectToEObjectFirstLevel(child);
 			}
 		}
 	}
@@ -262,12 +285,7 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 		return new ICheckStateProvider() {
 			public boolean isGrayed(Object element) {
 
-				int nbContained = 0;
-				for (Node child : ((Node) element).getChildren()) {
-					if (selectedNodes.contains(child)) {
-						++nbContained;
-					}
-				}
+				int nbContained = getNumberOfSelectedChildren((Node) element);
 				return selectedNodes.contains(element) && nbContained > 0
 						&& nbContained < ((Node) element).getChildren().size();
 			}
@@ -277,6 +295,25 @@ public class SelectConnectedElementsDialog extends AbstractTreeDialog {
 			}
 
 		};
+	}
+
+	/**
+	 * Gets the number of {@link SelectConnectedElementsDialog#selectedNodes
+	 * selected} children.
+	 * 
+	 * @param node
+	 *            the {@link Node} to check
+	 * @return the number of {@link SelectConnectedElementsDialog#selectedNodes
+	 *         selected} children
+	 */
+	protected int getNumberOfSelectedChildren(Node node) {
+		int nbContained = 0;
+		for (Node child : node.getChildren()) {
+			if (selectedNodes.contains(child)) {
+				++nbContained;
+			}
+		}
+		return nbContained;
 	}
 
 	@Override
