@@ -42,5 +42,12 @@ Contributors:
     </extension>
   
   <extension-point id="connectedElements" name="Connected elements" schema="schema/connectedElements.exsd"/>
+  <extension
+        point="fr.obeo.dsl.viewpoint.refreshExtensionProvider">
+     <refreshExtensionProvider
+           priority="lowest"
+           providerClass="org.obeonetwork.dsl.smartdesigner.design.services.SmartDesignerRefreshExtensionProvider">
+     </refreshExtensionProvider>
+  </extension>
   
 </plugin>

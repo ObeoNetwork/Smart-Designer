@@ -12,9 +12,12 @@
 package org.obeonetwork.dsl.smartdesigner.design.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -22,7 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsExtensionRegistry;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
+import org.obeonetwork.dsl.smartdesigner.design.util.EMFUtil;
 
 /**
  * Services for the edges.
@@ -31,6 +36,16 @@ import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
  * 
  */
 public class ConnectorServices {
+
+	/**
+	 * The relation cache.
+	 */
+	private static Map<EObject, Map<EObject, Set<Object>>> relations = new HashMap<EObject, Map<EObject, Set<Object>>>();
+
+	/**
+	 * The extended relation cache.
+	 */
+	private static Map<EObject, Map<EObject, Set<EObject>>> extendedRelations = new HashMap<EObject, Map<EObject, Set<EObject>>>();
 
 	/**
 	 * Returns the label for the edge that links the GraphicalElement
@@ -45,39 +60,48 @@ public class ConnectorServices {
 	 *         .
 	 */
 	public String getLabel(GraphicalElement source, GraphicalElement target) {
-		String result = "";
-		boolean first = true;
-		for (EReference ref : source.getSemanticElement().eClass()
-				.getEAllReferences()) {
-			if (source.getSemanticElement().eIsSet(ref)) {
-				if (source.getSemanticElement().eGet(ref) instanceof List) {
-					if (((List) source.getSemanticElement().eGet(ref))
-							.contains(target.getSemanticElement())) {
-						if (first) {
-							first = false;
-						} else {
-							result = result + "\n ";
-						}
-						result = result
-								+ BasicDiagramUtil
-										.splitCamelCase(ref.getName());
-					}
-				} else {
-					if (target.getSemanticElement().equals(
-							source.getSemanticElement().eGet(ref))) {
-						if (first) {
-							first = false;
-						} else {
-							result = result + "\n ";
-						}
-						result = result
-								+ BasicDiagramUtil
-										.splitCamelCase(ref.getName());
-					}
-				}
+		StringBuilder res = new StringBuilder();
+
+		Map<EObject, Set<Object>> map = internalGetRelatedElements(source
+				.getSemanticElement());
+		for (Entry<EObject, Set<Object>> entry : map.entrySet()) {
+			if (entry.getValue().contains(target.getSemanticElement())) {
+				res.append(BasicDiagramUtil.splitCamelCase(EMFUtil
+						.retrieveNameFrom(entry.getKey())));
+				res.append("\n ");
 			}
 		}
-		return result;
+
+		return res.substring(0, res.length() - "\n ".length());
+	}
+
+	/**
+	 * Returns the label for the edge that links the GraphicalElement
+	 * <code>source</code> with the graphicalElement <code>target</code>.
+	 * 
+	 * @param source
+	 *            The GraphicalElement that is the source of the edge.
+	 * @param target
+	 *            The graphicalElement that is the target of the edge.
+	 * @return the label for the edge that links the GraphicalElement
+	 *         <code>source</code> with the graphicalElement <code>target</code>
+	 *         .
+	 */
+	public String getExtendedLabel(GraphicalElement source,
+			GraphicalElement target) {
+		StringBuilder res = new StringBuilder();
+
+		Map<EObject, Set<EObject>> map = internalGetExtendedRelatedElements(source
+				.getSemanticElement());
+		for (Entry<EObject, Set<EObject>> entry : map.entrySet()) {
+			if (entry.getValue().contains(target.getSemanticElement())) {
+				res.append(BasicDiagramUtil.splitCamelCase(EMFUtil
+						.retrieveNameFrom(entry.getKey())));
+				res.append("\n ");
+			}
+		}
+
+		return res.substring(0, res.length() - "\n ".length());
 	}
 
 	/**
@@ -92,21 +116,44 @@ public class ConnectorServices {
 	 *            First GraphicalElement to consider.
 	 * @param target
 	 *            Second GraphicalElement to consider.
-	 * @return True if it exists a reference from the semantic element of
-	 *         <code>source</code> to the semantic element of
+	 * @return <code>true</code> if it exists a reference from the semantic
+	 *         element of <code>source</code> to the semantic element of
 	 *         <code>target</code> and a reference from the semantic element of
 	 *         <code>target</code> to the semantic element of
-	 *         <code>source</code>. False otherwise.
+	 *         <code>source</code>. <code>false</code> otherwise.
 	 */
 	public boolean isBidirectionalConnector(GraphicalElement source,
 			GraphicalElement target) {
-		boolean result = existRelation(source.getSemanticElement(),
-				target.getSemanticElement());
-		if (result) {
-			result = existRelation(target.getSemanticElement(),
-					source.getSemanticElement());
-		}
-		return result;
+		return existRelation(source.getSemanticElement(),
+				target.getSemanticElement())
+				&& existRelation(target.getSemanticElement(),
+						source.getSemanticElement());
+	}
+
+	/**
+	 * Check if the extended connection between <code>source</code> and
+	 * <code>target</code> is bidirectional. The connection is bidirectional if
+	 * it exists a reference from the semantic element of <code>source</code> to
+	 * the semantic element of <code>target</code> and a reference from the
+	 * semantic element of <code>target</code> to the semantic element of
+	 * <code>source</code>.
+	 * 
+	 * @param source
+	 *            First GraphicalElement to consider.
+	 * @param target
+	 *            Second GraphicalElement to consider.
+	 * @return <code>true</code> if it exists a reference from the semantic
+	 *         element of <code>source</code> to the semantic element of
+	 *         <code>target</code> and a reference from the semantic element of
+	 *         <code>target</code> to the semantic element of
+	 *         <code>source</code>. <code>false</code> otherwise.
+	 */
+	public boolean isBidirectionalExtendedConnector(GraphicalElement source,
+			GraphicalElement target) {
+		return existExtendedRelation(source.getSemanticElement(),
+				target.getSemanticElement())
+				&& existExtendedRelation(target.getSemanticElement(),
+						source.getSemanticElement());
 	}
 
 	/**
@@ -137,25 +184,43 @@ public class ConnectorServices {
 		}
 
 		Set<GraphicalElement> resultSet = new HashSet<GraphicalElement>();
-		Iterator<GraphicalElement> it = diagram.getElements().iterator();
-		while (it.hasNext()) {
-			GraphicalElement ge = it.next();
+		for (GraphicalElement ge : diagram.getElements()) {
 			if (ge != graphicalElement) {
 				EObject sourceObject = graphicalElement.getSemanticElement();
 				EObject targetObject = ge.getSemanticElement();
 				if (compare(sourceObject, targetObject) > 0 && //
 						(//
-						(//
 						existRelation(sourceObject, targetObject)//
-						) //
 						|| //
-						(//
-						!existRelation(sourceObject, targetObject) && //
 						existRelation(targetObject, sourceObject)//
-						)//
 						)//
 				) {
 					resultSet.add(ge);
+				}
+			}
+		}
+		return new ArrayList<GraphicalElement>(resultSet);
+	}
+
+	public List<GraphicalElement> getExtendedRelatedElements(
+			GraphicalElement graphicalElement) {
+		Diagram diagram = BasicDiagramUtil.getDiagram(graphicalElement);
+		final Set<GraphicalElement> resultSet = new HashSet<GraphicalElement>();
+		if (diagram != null) {
+			for (GraphicalElement ge : diagram.getElements()) {
+				if (ge != graphicalElement) {
+					EObject sourceObject = graphicalElement
+							.getSemanticElement();
+					EObject targetObject = ge.getSemanticElement();
+					if (compare(sourceObject, targetObject) > 0 && //
+							(//
+							existExtendedRelation(sourceObject, targetObject)//
+							|| //
+							existExtendedRelation(targetObject, sourceObject)//
+							)//
+					) {
+						resultSet.add(ge);
+					}
 				}
 			}
 		}
@@ -176,20 +241,44 @@ public class ConnectorServices {
 	 *         <code>targetObject</code>, false otherwise.
 	 */
 	public boolean existRelation(EObject sourceObject, EObject targetObject) {
-		boolean found = false;
-		Iterator<EReference> refs = sourceObject.eClass().getEAllReferences()
-				.iterator();
-		while (!found && refs.hasNext()) {
-			EReference ref = refs.next();
-			if (sourceObject.eGet(ref) instanceof List) {
-				if (((List) sourceObject.eGet(ref)).contains(targetObject)) {
-					found = true;
-				}
-			} else if (targetObject.equals(sourceObject.eGet(ref))) {
-				found = true;
+		boolean res = false;
+
+		Map<EObject, Set<Object>> map = internalGetRelatedElements(sourceObject);
+		for (Entry<EObject, Set<Object>> entry : map.entrySet()) {
+			if (entry.getValue().contains(targetObject)) {
+				res = true;
+				break;
 			}
 		}
-		return found;
+
+		return res;
+	}
+
+	/**
+	 * Tells if there is an extended relation from {@link EObject sourceObject}
+	 * to {@link EObject targetObject}
+	 * 
+	 * @param sourceObject
+	 *            the source {@link EObject}
+	 * @param targetObject
+	 *            the target {@link EObject}
+	 * @return <code>true</code> if there is an extended relation from
+	 *         {@link EObject sourceObject} to {@link EObject targetObject},
+	 *         <code>false</code> otherwise
+	 */
+	public boolean existExtendedRelation(EObject sourceObject,
+			EObject targetObject) {
+		boolean res = false;
+
+		Map<EObject, Set<EObject>> map = internalGetExtendedRelatedElements(sourceObject);
+		for (Entry<EObject, Set<EObject>> entry : map.entrySet()) {
+			if (entry.getValue().contains(targetObject)) {
+				res = true;
+				break;
+			}
+		}
+
+		return res;
 	}
 
 	/**
@@ -207,6 +296,61 @@ public class ConnectorServices {
 		int result = ((CDOObject) sourceObject).cdoID().compareTo(
 				((CDOObject) targetObject).cdoID());
 		return result;
+	}
+
+	/**
+	 * Gets related elements for the given {@link EObject}.
+	 * 
+	 * @param eObj
+	 *            the {@link EObject}
+	 * @return related elements for the given {@link EObject}
+	 */
+	private Map<EObject, Set<Object>> internalGetRelatedElements(EObject eObj) {
+		Map<EObject, Set<Object>> res = relations.get(eObj);
+		if (res == null) {
+			res = new LinkedHashMap<EObject, Set<Object>>();
+
+			for (EReference ref : eObj.eClass().getEAllReferences()) {
+				final Object value = eObj.eGet(ref);
+				if (value instanceof List) {
+					res.put(ref, new HashSet<Object>((List<?>) value));
+				} else if (value != null) {
+					final HashSet<Object> set = new HashSet<Object>();
+					set.add(value);
+					res.put(ref, set);
+				}
+			}
+
+			relations.put(eObj, res);
+		}
+		return res;
+	}
+
+	/**
+	 * Gets the
+	 * {@link ConnectedElementsExtensionRegistry#getExtendedRelatedElements(EObject)
+	 * extended related elements} of the given {@link EObject}
+	 * 
+	 * @param eObj
+	 * @return
+	 */
+	private Map<EObject, Set<EObject>> internalGetExtendedRelatedElements(
+			EObject eObj) {
+		Map<EObject, Set<EObject>> res = extendedRelations.get(eObj);
+		if (res == null) {
+			res = ConnectedElementsExtensionRegistry
+					.getExtendedRelatedElements(eObj);
+			extendedRelations.put(eObj, res);
+		}
+		return res;
+	}
+
+	/**
+	 * Clears caches.
+	 */
+	public static void clearCache() {
+		relations.clear();
+		extendedRelations.clear();
 	}
 
 }

@@ -23,7 +23,12 @@
 package org.obeonetwork.dsl.smartdesigner.design.registry;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author <a href="mailto:yvan.lussaud@obeo.fr">Yvan Lussaud</a>
@@ -82,6 +87,27 @@ public class ConnectedElementsExtensionRegistry {
 				EXTENSIONS.remove(extension);
 			}
 		}
+	}
+
+	/**
+	 * Gets the {@link Map} of relation to related elements.
+	 * 
+	 * @param element
+	 *            the {@link EObject element} to use as start point
+	 * 
+	 * @return the {@link Map} of relation to related elements
+	 */
+	public static Map<EObject, Set<EObject>> getExtendedRelatedElements(
+			EObject element) {
+		Map<EObject, Set<EObject>> res = new LinkedHashMap<EObject, Set<EObject>>();
+		for (ConnectedElementsExtensionDescriptor extension : getRegisteredExtensions()) {
+			final Map<EObject, Set<EObject>> relatedElements = extension
+					.getConnectedElementsProvider().getRelatedElements(element);
+			if (relatedElements != null) {
+				res.putAll(relatedElements);
+			}
+		}
+		return res;
 	}
 
 }
