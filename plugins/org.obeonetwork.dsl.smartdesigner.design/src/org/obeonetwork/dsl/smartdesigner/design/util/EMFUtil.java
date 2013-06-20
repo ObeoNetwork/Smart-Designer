@@ -38,7 +38,7 @@ import org.osgi.framework.FrameworkUtil;
 public class EMFUtil {
 
 	/**
-	 * Predefined feature names used to retrieve names from {@link EBoject}s.
+	 * Predefined feature names used to retrieve names from {@link EObject}s.
 	 */
 	private static final Collection<String> FEATURE_NAMES = Arrays
 			.asList(new String[] { "name", "nom", "label", "libellé", "libelle" });
