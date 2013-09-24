@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
@@ -39,7 +38,6 @@ import fr.obeo.dsl.viewpoint.DDiagramElement;
 import fr.obeo.dsl.viewpoint.description.Layer;
 import fr.obeo.dsl.viewpoint.description.OptionalLayer;
 import fr.obeo.dsl.viewpoint.diagram.tools.api.editor.DDiagramEditor;
-import fr.obeo.dsl.viewpoint.diagram.tools.internal.handler.ChangeLayerActivation;
 import fr.obeo.dsl.viewpoint.diagram.ui.tools.internal.commands.ChangeLayerActivationCommand;
 import fr.obeo.dsl.viewpoint.tools.api.ui.IExternalJavaAction;
 
@@ -155,25 +153,19 @@ public abstract class AbstractSelectViewpoint implements IExternalJavaAction {
 				}
 			}
 			for (Layer layer : layersToAdd) {
-				ChangeLayerActivation changeLayerActivation = new ChangeLayerActivation(
-						(IDiagramWorkbenchPart) diagramEditor, diagram, layer,
-						true);
 				ChangeLayerActivationCommand changeLayerActivationCommand = new ChangeLayerActivationCommand(
 						diagramEditor.getSession()
 								.getTransactionalEditingDomain(),
-						changeLayerActivation);
+								diagram, layer);
 				diagramEditor.getSession().getTransactionalEditingDomain()
 						.getCommandStack()
 						.execute(changeLayerActivationCommand);
 			}
 			for (Layer layer : layersToRemove) {
-				ChangeLayerActivation changeLayerActivation = new ChangeLayerActivation(
-						(IDiagramWorkbenchPart) diagramEditor, diagram, layer,
-						false);
 				ChangeLayerActivationCommand changeLayerActivationCommand = new ChangeLayerActivationCommand(
 						diagramEditor.getSession()
 								.getTransactionalEditingDomain(),
-						changeLayerActivation);
+								diagram, layer);
 				diagramEditor.getSession().getTransactionalEditingDomain()
 						.getCommandStack()
 						.execute(changeLayerActivationCommand);
