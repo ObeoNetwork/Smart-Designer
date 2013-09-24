@@ -3,7 +3,7 @@
    <description url="http://www.obeo.fr">
       TOGAF Designer
    </description>
-   <feature url="features/org.obeonetwork.dsl.smartdesigner.feature_1.2.0.qualifier.jar" id="org.obeonetwork.dsl.smartdesigner.feature" version="1.2.0.qualifier"/>
+   <feature url="features/org.obeonetwork.dsl.smartdesigner.feature_1.4.0.qualifier.jar" id="org.obeonetwork.dsl.smartdesigner.feature" version="1.4.0.qualifier"/>
    <category-def name="Smart Designer" label="Smart Designer">
       <description>
          This module provides Smart-Designer.
