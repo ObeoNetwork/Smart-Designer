@@ -27,6 +27,7 @@ import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 import org.obeonetwork.dsl.smartdesigner.SmartdesignerFactory;
 import org.obeonetwork.dsl.smartdesigner.design.Activator;
 import org.obeonetwork.dsl.smartdesigner.design.dialogs.SelectConnectedElementsDialog;
+import org.obeonetwork.dsl.smartdesigner.design.registry.ConnectedElementsExtensionRegistry;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
 import org.obeonetwork.dsl.smartdesigner.design.util.EMFUtil;
 
@@ -81,10 +82,10 @@ public abstract class AbstractSelectConnectedElements implements
 		existingElements.addAll((List) l);
 
 		Set<EObject> crossReferencedObjects = BasicDiagramUtil
-				.getConnectedElements(graphicalElement);
+				.getCrossReferencedElements(graphicalElement);
 
 		if (crossReferencedObjects.size() > 0) {
-			Map<EObject, Map<EClass, Set<EObject>>> model = getModel(
+			Map<EObject, Map<EClass, Set<EObject>>> model = getModel(graphicalElement,
 					existingElements, crossReferencedObjects);
 			if (model == null) {
 				openNoElementDialogBox();
@@ -132,12 +133,13 @@ public abstract class AbstractSelectConnectedElements implements
 	public abstract Map<EClass, List<EClass>> getArchitectures();
 
 	/**
+	 * @param graphicalElement  the selected {@link GraphicalElement}
 	 * @param existingElements
 	 * @param crossReferencedObjects
 	 * @return Null if no element found.
 	 */
 	private final Map<EObject, Map<EClass, Set<EObject>>> getModel(
-			Set<EObject> existingElements, Set<EObject> crossReferencedObjects) {
+			GraphicalElement graphicalElement, Set<EObject> existingElements, Set<EObject> crossReferencedObjects) {
 		Map<EObject, Map<EClass, Set<EObject>>> result = Maps
 				.newTreeMap(new Comparator<EObject>() {
 					@Override
@@ -186,6 +188,49 @@ public abstract class AbstractSelectConnectedElements implements
 				}
 			}
 		}
+		
+		Map<EObject, Set<EObject>> extendedRelatedElements = ConnectedElementsExtensionRegistry
+		.getExtendedRelatedElements(graphicalElement.getSemanticElement());
+		for (Set<EObject> extendedRelatedElement : extendedRelatedElements.values()) {
+			for (EObject eObject : extendedRelatedElement) {
+				if (!existingElements.contains(eObject)) {
+					for (Entry<EClass, List<EClass>> entry : architectures
+							.entrySet()) {
+						if (entry.getValue().contains(eObject.eClass())) {
+							Map<EClass, Set<EObject>> d = result
+									.get(entry.getKey());
+							if (d == null) {
+								d = Maps.newTreeMap(new Comparator<EClass>() {
+									@Override
+									public int compare(EClass o1, EClass o2) {
+										return o1.getName().compareTo(o2.getName());
+									}
+								});
+								result.put(entry.getKey(), d);
+							}
+							Set<EObject> eObjects = d.get(eObject.eClass());
+							if (eObjects == null) {
+								eObjects = Sets
+										.newTreeSet(new Comparator<EObject>() {
+											@Override
+											public int compare(EObject o1,
+													EObject o2) {
+												return EMFUtil
+														.retrieveNameFrom(o1)
+														.compareTo(
+																EMFUtil.retrieveNameFrom(o2));
+											}
+										});
+								d.put(eObject.eClass(), eObjects);
+								oneElement = true;
+							}
+							eObjects.add(eObject);
+						}
+					}
+				}
+			}
+		}
+		
 		return oneElement ? result : null;
 	}
 
