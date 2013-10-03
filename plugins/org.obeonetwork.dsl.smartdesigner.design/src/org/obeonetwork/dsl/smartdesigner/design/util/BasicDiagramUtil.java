@@ -139,7 +139,7 @@ public class BasicDiagramUtil {
 	 *            objects.
 	 * @return the set of cross referenced objects.
 	 */
-	public static Set<EObject> getConnectedElements(
+	public static Set<EObject> getCrossReferencedElements(
 			GraphicalElement graphicalElement) {
 		List<EObject> crossReferencesL = new ArrayList<EObject>();
 		crossReferencesL.addAll(graphicalElement.getSemanticElement()
