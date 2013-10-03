@@ -183,6 +183,7 @@ public abstract class AbstractSelectViewpoint implements IExternalJavaAction {
 			}
 
 		}
+		diagram.refresh();
 
 	}
 

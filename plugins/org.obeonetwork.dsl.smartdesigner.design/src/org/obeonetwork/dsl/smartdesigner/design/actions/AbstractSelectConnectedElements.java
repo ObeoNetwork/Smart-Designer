@@ -33,6 +33,7 @@ import org.obeonetwork.dsl.smartdesigner.design.util.EMFUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import fr.obeo.dsl.viewpoint.DDiagram;
 import fr.obeo.dsl.viewpoint.tools.api.ui.IExternalJavaAction;
 
 /**
@@ -67,6 +68,12 @@ public abstract class AbstractSelectConnectedElements implements
 	@Override
 	public void execute(Collection<? extends EObject> selections,
 			Map<String, Object> parameters) {
+		Object d = parameters.get("ddiagram");
+		if (!(d instanceof DDiagram)) {
+			return;
+		}
+		DDiagram ddiagram = (DDiagram)d;
+		
 		Object c = parameters.get("container");
 		if (!(c instanceof GraphicalElement)) {
 			return;
@@ -100,6 +107,7 @@ public abstract class AbstractSelectConnectedElements implements
 					createNewElements(graphicalElement, dialog.getSelectedEObjects());
 				}
 			}
+			ddiagram.refresh();
 		} else {
 			openNoElementDialogBox();
 		}

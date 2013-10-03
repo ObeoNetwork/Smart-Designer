@@ -65,6 +65,12 @@ public abstract class AbstractShadeGraphicalElement implements
 	@Override
 	public void execute(Collection<? extends EObject> selections,
 			Map<String, Object> parameters) {
+		
+		Object d = parameters.get("ddiagram");
+		if (!(d instanceof DDiagram)) {
+			return;
+		}
+		DDiagram ddiagram = (DDiagram)d;
 
 		boolean selectionIsDiagram = false;
 		// Check the selections
@@ -74,6 +80,7 @@ public abstract class AbstractShadeGraphicalElement implements
 				// setHidden(!isHidden())
 				GraphicalElement ge = (GraphicalElement) s;
 				ge.setHidden(!ge.isHidden());
+				ddiagram.refresh();
 			} else if (s instanceof Diagram) {
 				// The selection contains the diagram
 				selectionIsDiagram = true;
@@ -112,6 +119,7 @@ public abstract class AbstractShadeGraphicalElement implements
 					ge.setHidden(selectedEObjects.contains(ge));
 				}
 			}
+			ddiagram.refresh();
 		}
 	}
 
