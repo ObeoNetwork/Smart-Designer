@@ -144,6 +144,7 @@ public class BasicDiagramUtil {
 		List<EObject> crossReferencesL = new ArrayList<EObject>();
 		crossReferencesL.addAll(graphicalElement.getSemanticElement()
 				.eCrossReferences());
+		crossReferencesL.addAll(graphicalElement.getSemanticElement().eContents());
 		Collections.sort(crossReferencesL, new Comparator<EObject>() {
 			@Override
 			public int compare(EObject o1, EObject o2) {
