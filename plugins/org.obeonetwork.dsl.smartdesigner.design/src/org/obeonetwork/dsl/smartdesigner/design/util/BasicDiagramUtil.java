@@ -12,6 +12,7 @@
 package org.obeonetwork.dsl.smartdesigner.design.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,6 +27,9 @@ import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.DocumentRoot;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import fr.obeo.dsl.viewpoint.DDiagram;
@@ -145,14 +149,21 @@ public class BasicDiagramUtil {
 		crossReferencesL.addAll(graphicalElement.getSemanticElement()
 				.eCrossReferences());
 		crossReferencesL.addAll(graphicalElement.getSemanticElement().eContents());
-		Collections.sort(crossReferencesL, new Comparator<EObject>() {
+		
+		// Filter null from the list
+		List<EObject> nonNullCrossReferences = new ArrayList<EObject>(Collections2.filter(crossReferencesL, new Predicate<EObject>() {
+			public boolean apply(EObject input) {
+				return input != null;
+			}
+		}));
+		Collections.sort(nonNullCrossReferences, new Comparator<EObject>() {
 			@Override
 			public int compare(EObject o1, EObject o2) {
 				return o1.eClass().getName().compareTo(o2.eClass().getName());
 			}
 		});
 		Set<EObject> crossReferences = new LinkedHashSet<EObject>(
-				crossReferencesL);
+				nonNullCrossReferences);
 		return crossReferences;
 	}
 
