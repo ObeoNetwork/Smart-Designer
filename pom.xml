@@ -73,6 +73,16 @@
      <url>http://update.obeo.fr/maintenance/od/6.2/juno3/update/repository/</url>
     </repository>
     <repository>
+      <id>CDO</id>
+      <layout>p2</layout>
+     <url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2/</url>
+    </repository>
+    <repository>
+      <id>Net4J</id>
+      <layout>p2</layout>
+     <url>http://net4j.sourceforge.net/update/</url>
+    </repository>
+    <repository>
       <id>Acceleo2</id>
       <layout>p2</layout>
       <url>http://update.obeo.fr/stable/acceleo/stable-2.8.0/fr.obeo.acceleo.update/</url>
