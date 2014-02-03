@@ -70,12 +70,12 @@
     <repository>
       <id>viewpoint</id>
       <layout>p2</layout>
-     <url>http://update.obeo.fr/maintenance/od/6.2/juno3/update/repository/</url>
+     <url>http://update.obeo.fr/release/designer/6.2.0/juno3/update/repository/</url>
     </repository>
     <repository>
       <id>CDO</id>
       <layout>p2</layout>
-     <url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2/</url>
+     <url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2</url>
     </repository>
     <repository>
       <id>Net4J</id>
