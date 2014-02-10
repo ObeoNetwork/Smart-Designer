@@ -7,13 +7,9 @@
 package org.obeonetwork.dsl.smartdesigner.impl;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
-
-import org.obeonetwork.dsl.smartdesigner.AccessControl;
 import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.DocumentRoot;
 import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
@@ -27,7 +23,6 @@ import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
  * <ul>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl#getDiagrams <em>Diagrams</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl#getSemanticModel <em>Semantic Model</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl#getAccessControls <em>Access Controls</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,16 +84,6 @@ public class DocumentRootImpl extends CDOObjectImpl implements DocumentRoot {
 	 */
 	public void setSemanticModel(EObject newSemanticModel) {
 		eSet(SmartdesignerPackage.Literals.DOCUMENT_ROOT__SEMANTIC_MODEL, newSemanticModel);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<AccessControl> getAccessControls() {
-		return (EList<AccessControl>)eGet(SmartdesignerPackage.Literals.DOCUMENT_ROOT__ACCESS_CONTROLS, true);
 	}
 
 } //DocumentRootImpl

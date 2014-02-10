@@ -21,10 +21,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getElements <em>Elements</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getName <em>Name</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getId <em>Id</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getHiddenRelations <em>Hidden Relations</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getDiagrams <em>Diagrams</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getAccessControl <em>Access Control</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,30 +50,30 @@ public interface Diagram extends CDOObject {
 	EList<GraphicalElement> getElements();
 
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getDiagram_Name()
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(long)
+	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getDiagram_Id()
 	 * @model
 	 * @generated
 	 */
-	String getName();
+	long getId();
 
 	/**
-	 * Sets the value of the '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
 	 * @generated
 	 */
-	void setName(String value);
+	void setId(long value);
 
 	/**
 	 * Returns the value of the '<em><b>Hidden Relations</b></em>' reference list.
@@ -107,31 +106,5 @@ public interface Diagram extends CDOObject {
 	 * @generated
 	 */
 	EList<Diagram> getDiagrams();
-
-	/**
-	 * Returns the value of the '<em><b>Access Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Access Control</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Access Control</em>' attribute.
-	 * @see #setAccessControl(String)
-	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getDiagram_AccessControl()
-	 * @model transient="true"
-	 * @generated
-	 */
-	String getAccessControl();
-
-	/**
-	 * Sets the value of the '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getAccessControl <em>Access Control</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Access Control</em>' attribute.
-	 * @see #getAccessControl()
-	 * @generated
-	 */
-	void setAccessControl(String value);
 
 } // Diagram

@@ -67,32 +67,31 @@ public class DiagramItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
+			addIdPropertyDescriptor(object);
 			addHiddenRelationsPropertyDescriptor(object);
 			addDiagramsPropertyDescriptor(object);
-			addAccessControlPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Id feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addIdPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Diagram_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_name_feature", "_UI_Diagram_type"),
-				 SmartdesignerPackage.Literals.DIAGRAM__NAME,
+				 getString("_UI_Diagram_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_id_feature", "_UI_Diagram_type"),
+				 SmartdesignerPackage.Literals.DIAGRAM__ID,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -137,28 +136,6 @@ public class DiagramItemProvider
 				 false,
 				 true,
 				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Access Control feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAccessControlPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Diagram_accessControl_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_accessControl_feature", "_UI_Diagram_type"),
-				 SmartdesignerPackage.Literals.DIAGRAM__ACCESS_CONTROL,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -212,10 +189,8 @@ public class DiagramItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Diagram)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Diagram_type") :
-			getString("_UI_Diagram_type") + " " + label;
+		Diagram diagram = (Diagram)object;
+		return getString("_UI_Diagram_type") + " " + diagram.getId();
 	}
 
 	/**
@@ -230,8 +205,7 @@ public class DiagramItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Diagram.class)) {
-			case SmartdesignerPackage.DIAGRAM__NAME:
-			case SmartdesignerPackage.DIAGRAM__ACCESS_CONTROL:
+			case SmartdesignerPackage.DIAGRAM__ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case SmartdesignerPackage.DIAGRAM__ELEMENTS:

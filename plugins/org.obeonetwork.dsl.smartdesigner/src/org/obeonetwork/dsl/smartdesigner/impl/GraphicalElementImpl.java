@@ -7,12 +7,9 @@
 package org.obeonetwork.dsl.smartdesigner.impl;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
-
 import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;

@@ -175,10 +175,18 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 			IItemLabelProvider provider = (IItemLabelProvider) factory.adapt(
 					graphicalElement.getSemanticElement(),
 					IItemLabelProvider.class);
-			return provider.getImage(graphicalElement.getSemanticElement());
+			if (provider != null) {
+				return provider.getImage(graphicalElement.getSemanticElement());
+			} else {
+				return overlayImage(
+						object,
+						getResourceLocator().getImage(
+								"full/obj16/GraphicalElement"));
+			}
 		} else {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/GraphicalElement"));
+			return overlayImage(object,
+					getResourceLocator()
+							.getImage("full/obj16/GraphicalElement"));
 		}
 	}
 
@@ -191,16 +199,17 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 	@Override
 	public String getText(Object object) {
 		GraphicalElement graphicalElement = (GraphicalElement) object;
+		String defaultText = getString("_UI_GraphicalElement_type") + " "
+				+ graphicalElement.isHidden();
 		if (graphicalElement.getSemanticElement() != null) {
 			ComposedAdapterFactory factory = new ComposedAdapterFactory(
 					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 			IItemLabelProvider provider = (IItemLabelProvider) factory.adapt(
 					graphicalElement.getSemanticElement(),
 					IItemLabelProvider.class);
-			return provider.getText(graphicalElement.getSemanticElement());
+			return provider!=null ? provider.getText(graphicalElement.getSemanticElement()):defaultText;
 		} else {
-			return getString("_UI_GraphicalElement_type") + " "
-					+ graphicalElement.isHidden();
+			return defaultText;
 		}
 	}
 

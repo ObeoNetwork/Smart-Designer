@@ -18,4 +18,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.obeonetwork.dsl.smartdesigner.design.Activator
 Provide-Package: org.obeonetwork.dsl.smartdesigner.design.actions,
- org.obeonetwork.dsl.smartdesigner.design.dialogs
+ org.obeonetwork.dsl.smartdesigner.design.dialogs,
+ org.obeonetwork.dsl.smartdesigner.design.tx

@@ -9,12 +9,14 @@ package org.obeonetwork.dsl.smartdesigner.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.obeonetwork.dsl.smartdesigner.*;
+import org.obeonetwork.dsl.smartdesigner.Diagram;
+import org.obeonetwork.dsl.smartdesigner.DocumentRoot;
+import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
+import org.obeonetwork.dsl.smartdesigner.SmartdesignerFactory;
+import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -63,7 +65,6 @@ public class SmartdesignerFactoryImpl extends EFactoryImpl implements Smartdesig
 			case SmartdesignerPackage.GRAPHICAL_ELEMENT: return (EObject)createGraphicalElement();
 			case SmartdesignerPackage.DIAGRAM: return (EObject)createDiagram();
 			case SmartdesignerPackage.DOCUMENT_ROOT: return (EObject)createDocumentRoot();
-			case SmartdesignerPackage.ACCESS_CONTROL: return (EObject)createAccessControl();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -97,16 +98,6 @@ public class SmartdesignerFactoryImpl extends EFactoryImpl implements Smartdesig
 	public DocumentRoot createDocumentRoot() {
 		DocumentRootImpl documentRoot = new DocumentRootImpl();
 		return documentRoot;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AccessControl createAccessControl() {
-		AccessControlImpl accessControl = new AccessControlImpl();
-		return accessControl;
 	}
 
 	/**

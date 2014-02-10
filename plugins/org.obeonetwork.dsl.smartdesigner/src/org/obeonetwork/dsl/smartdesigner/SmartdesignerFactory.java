@@ -53,15 +53,6 @@ public interface SmartdesignerFactory extends EFactory {
 	DocumentRoot createDocumentRoot();
 
 	/**
-	 * Returns a new object of class '<em>Access Control</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Access Control</em>'.
-	 * @generated
-	 */
-	AccessControl createAccessControl();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

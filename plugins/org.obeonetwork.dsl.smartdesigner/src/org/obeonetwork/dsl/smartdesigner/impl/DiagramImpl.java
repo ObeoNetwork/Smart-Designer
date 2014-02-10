@@ -21,27 +21,18 @@ import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getElements
- * <em>Elements</em>}</li>
- * <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getName <em>
- * Name</em>}</li>
- * <li>
- * {@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getHiddenRelations
- * <em>Hidden Relations</em>}</li>
- * <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getDiagrams
- * <em>Diagrams</em>}</li>
- * <li>
- * {@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getAccessControl
- * <em>Access Control</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getElements <em>Elements</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getId <em>Id</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getHiddenRelations <em>Hidden Relations</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getDiagrams <em>Diagrams</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DiagramImpl extends CDOObjectImpl implements Diagram {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DiagramImpl() {
@@ -50,7 +41,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -60,7 +50,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -70,87 +59,47 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<GraphicalElement> getElements() {
-		return (EList<GraphicalElement>) eGet(
-				SmartdesignerPackage.Literals.DIAGRAM__ELEMENTS, true);
+		return (EList<GraphicalElement>)eGet(SmartdesignerPackage.Literals.DIAGRAM__ELEMENTS, true);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return (String) eGet(SmartdesignerPackage.Literals.DIAGRAM__NAME, true);
+	public long getId() {
+		return (Long)eGet(SmartdesignerPackage.Literals.DIAGRAM__ID, true);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		eSet(SmartdesignerPackage.Literals.DIAGRAM__NAME, newName);
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	@Override
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		if (eFeature.equals(SmartdesignerPackage.Literals.DIAGRAM__NAME)) {
-			if (getName() == null || "".equals(getName().trim())) {
-				super.eSet(eFeature, newValue);
-			}
-		} else {
-			super.eSet(eFeature, newValue);
-		}
+	public void setId(long newId) {
+		eSet(SmartdesignerPackage.Literals.DIAGRAM__ID, newId);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<EObject> getHiddenRelations() {
-		return (EList<EObject>) eGet(
-				SmartdesignerPackage.Literals.DIAGRAM__HIDDEN_RELATIONS, true);
+		return (EList<EObject>)eGet(SmartdesignerPackage.Literals.DIAGRAM__HIDDEN_RELATIONS, true);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<Diagram> getDiagrams() {
-		return (EList<Diagram>) eGet(
-				SmartdesignerPackage.Literals.DIAGRAM__DIAGRAMS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public String getAccessControl() {
-		return (String) eGet(
-				SmartdesignerPackage.Literals.DIAGRAM__ACCESS_CONTROL, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void setAccessControl(String newAccessControl) {
-		eSet(SmartdesignerPackage.Literals.DIAGRAM__ACCESS_CONTROL,
-				newAccessControl);
+		return (EList<Diagram>)eGet(SmartdesignerPackage.Literals.DIAGRAM__DIAGRAMS, true);
 	}
 
 } // DiagramImpl

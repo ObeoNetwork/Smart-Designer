@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot#getDiagrams <em>Diagrams</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot#getSemanticModel <em>Semantic Model</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot#getAccessControls <em>Access Controls</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,21 +72,5 @@ public interface DocumentRoot extends CDOObject {
 	 * @generated
 	 */
 	void setSemanticModel(EObject value);
-
-	/**
-	 * Returns the value of the '<em><b>Access Controls</b></em>' containment reference list.
-	 * The list contents are of type {@link org.obeonetwork.dsl.smartdesigner.AccessControl}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Access Controls</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Access Controls</em>' containment reference list.
-	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getDocumentRoot_AccessControls()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<AccessControl> getAccessControls();
 
 } // DocumentRoot

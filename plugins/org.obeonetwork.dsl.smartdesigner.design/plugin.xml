@@ -13,6 +13,8 @@ Contributors:
 -->
 
 <plugin>
+   <extension-point id="tx" name="org.obeonetwork.dsl.smartdesigner.design.tx" schema="schema/tx.exsd"/>
+		
   <extension point="fr.obeo.dsl.viewpoint.componentization">
     <component class="org.obeonetwork.dsl.smartdesigner.design.Activator"
                id="org.obeonetwork.dsl.smartdesigner.design"

@@ -10,10 +10,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.obeonetwork.dsl.smartdesigner.AccessControl;
 import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.DocumentRoot;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
@@ -47,13 +44,6 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 * @generated
 	 */
 	private EClass documentRootEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass accessControlEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -184,7 +174,7 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDiagram_Name() {
+	public EAttribute getDiagram_Id() {
 		return (EAttribute)diagramEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -204,15 +194,6 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 */
 	public EReference getDiagram_Diagrams() {
 		return (EReference)diagramEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getDiagram_AccessControl() {
-		return (EAttribute)diagramEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -240,42 +221,6 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 */
 	public EReference getDocumentRoot_SemanticModel() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_AccessControls() {
-		return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getAccessControl() {
-		return accessControlEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAccessControl_Diagrams() {
-		return (EReference)accessControlEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getAccessControl_AccessControl() {
-		return (EAttribute)accessControlEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -314,19 +259,13 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 
 		diagramEClass = createEClass(DIAGRAM);
 		createEReference(diagramEClass, DIAGRAM__ELEMENTS);
-		createEAttribute(diagramEClass, DIAGRAM__NAME);
+		createEAttribute(diagramEClass, DIAGRAM__ID);
 		createEReference(diagramEClass, DIAGRAM__HIDDEN_RELATIONS);
 		createEReference(diagramEClass, DIAGRAM__DIAGRAMS);
-		createEAttribute(diagramEClass, DIAGRAM__ACCESS_CONTROL);
 
 		documentRootEClass = createEClass(DOCUMENT_ROOT);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__DIAGRAMS);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SEMANTIC_MODEL);
-		createEReference(documentRootEClass, DOCUMENT_ROOT__ACCESS_CONTROLS);
-
-		accessControlEClass = createEClass(ACCESS_CONTROL);
-		createEReference(accessControlEClass, ACCESS_CONTROL__DIAGRAMS);
-		createEAttribute(accessControlEClass, ACCESS_CONTROL__ACCESS_CONTROL);
 	}
 
 	/**
@@ -367,19 +306,13 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 
 		initEClass(diagramEClass, Diagram.class, "Diagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDiagram_Elements(), this.getGraphicalElement(), null, "elements", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDiagram_Name(), ecorePackage.getEString(), "name", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Id(), ecorePackage.getELong(), "id", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_HiddenRelations(), ecorePackage.getEObject(), null, "hiddenRelations", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_Diagrams(), this.getDiagram(), null, "diagrams", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDiagram_AccessControl(), ecorePackage.getEString(), "accessControl", null, 0, 1, Diagram.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDocumentRoot_Diagrams(), this.getDiagram(), null, "diagrams", null, 0, -1, DocumentRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_SemanticModel(), ecorePackage.getEObject(), null, "semanticModel", null, 1, 1, DocumentRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDocumentRoot_AccessControls(), this.getAccessControl(), null, "accessControls", null, 0, -1, DocumentRoot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(accessControlEClass, AccessControl.class, "AccessControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAccessControl_Diagrams(), this.getDiagram(), null, "diagrams", null, 0, -1, AccessControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAccessControl_AccessControl(), ecorePackage.getEString(), "accessControl", null, 0, 1, AccessControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
