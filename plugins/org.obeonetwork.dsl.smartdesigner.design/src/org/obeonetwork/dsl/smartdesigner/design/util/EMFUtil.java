@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -23,6 +24,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -99,6 +102,10 @@ public class EMFUtil {
 		return null;
 	}
 
+	/** Label provider */
+	private static final AdapterFactoryLabelProvider LABEL_PROVIDER = new AdapterFactoryLabelProvider(
+			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+
 	/**
 	 * Get the image corresponding to the EObject <code>eObject</code> (looks
 	 * for the image in the .edit plugin).
@@ -111,20 +118,7 @@ public class EMFUtil {
 		if (eObject == null) {
 			return null;
 		}
-
-		Image result = null;
-		Bundle bundle = FrameworkUtil.getBundle(eObject.getClass());
-		ImageDescriptor imageDescriptor = AbstractUIPlugin
-				.imageDescriptorFromPlugin(
-						bundle.getSymbolicName() + ".edit",
-						"icons/full/obj16/"
-								+ eObject.getClass().getSimpleName()
-										.replace("Impl", "") + ".gif");
-		if (imageDescriptor == null) {
-			return null;
-		}
-		result = imageDescriptor.createImage(true);
-		return result;
+		return LABEL_PROVIDER.getImage(eObject);
 	}
 
 	/**
