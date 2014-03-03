@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,11 +25,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * Utility class for EMF objects.
@@ -44,7 +39,8 @@ public class EMFUtil {
 	 * Predefined feature names used to retrieve names from {@link EObject}s.
 	 */
 	private static final Collection<String> FEATURE_NAMES = Arrays
-			.asList(new String[] { "name", "nom", "label", "libellé", "libelle" });
+			.asList(new String[] { "name", "nom", "label", "libellé",
+					"libelle" });
 
 	/**
 	 * Tries to find a label for the given object.
@@ -104,7 +100,8 @@ public class EMFUtil {
 
 	/** Label provider */
 	private static final AdapterFactoryLabelProvider LABEL_PROVIDER = new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 
 	/**
 	 * Get the image corresponding to the EObject <code>eObject</code> (looks
@@ -134,15 +131,17 @@ public class EMFUtil {
 	 */
 	public static List<EReference> getReferencesBetween(EObject sourceElement,
 			EObject targetElement) {
-		EList<EReference> references = sourceElement.eClass()
-				.getEAllReferences();
 		List<EReference> result = new ArrayList<EReference>();
-		for (EReference ref : references) {
-			List<String> implementedInterfaces = getImplementedInterfaces(targetElement
-					.getClass());
-			if (implementedInterfaces.contains(ref.getEReferenceType()
-					.getInstanceClassName())) {
-				result.add(ref);
+		if (sourceElement != null && targetElement != null) {
+			EList<EReference> references = sourceElement.eClass()
+					.getEAllReferences();
+			for (EReference ref : references) {
+				List<String> implementedInterfaces = getImplementedInterfaces(targetElement
+						.getClass());
+				if (implementedInterfaces.contains(ref.getEReferenceType()
+						.getInstanceClassName())) {
+					result.add(ref);
+				}
 			}
 		}
 		return result;
