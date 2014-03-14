@@ -67,11 +67,34 @@ public class DiagramItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
 			addHiddenRelationsPropertyDescriptor(object);
 			addDiagramsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Diagram_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_name_feature", "_UI_Diagram_type"),
+				 SmartdesignerPackage.Literals.DIAGRAM__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -189,8 +212,10 @@ public class DiagramItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Diagram diagram = (Diagram)object;
-		return getString("_UI_Diagram_type") + " " + diagram.getId();
+		String label = ((Diagram)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Diagram_type") :
+			getString("_UI_Diagram_type") + " " + label;
 	}
 
 	/**
@@ -205,6 +230,7 @@ public class DiagramItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Diagram.class)) {
+			case SmartdesignerPackage.DIAGRAM__NAME:
 			case SmartdesignerPackage.DIAGRAM__ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

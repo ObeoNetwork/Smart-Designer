@@ -22,6 +22,7 @@ import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getElements <em>Elements</em>}</li>
+ *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getHiddenRelations <em>Hidden Relations</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getDiagrams <em>Diagrams</em>}</li>
@@ -64,6 +65,24 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 	@SuppressWarnings("unchecked")
 	public EList<GraphicalElement> getElements() {
 		return (EList<GraphicalElement>)eGet(SmartdesignerPackage.Literals.DIAGRAM__ELEMENTS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eGet(SmartdesignerPackage.Literals.DIAGRAM__NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eSet(SmartdesignerPackage.Literals.DIAGRAM__NAME, newName);
 	}
 
 	/**

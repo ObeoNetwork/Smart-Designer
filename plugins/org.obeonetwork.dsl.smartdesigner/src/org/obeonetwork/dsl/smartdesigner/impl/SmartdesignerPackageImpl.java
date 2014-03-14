@@ -174,7 +174,7 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDiagram_Id() {
+	public EAttribute getDiagram_Name() {
 		return (EAttribute)diagramEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -183,8 +183,17 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDiagram_Id() {
+		return (EAttribute)diagramEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getDiagram_HiddenRelations() {
-		return (EReference)diagramEClass.getEStructuralFeatures().get(2);
+		return (EReference)diagramEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -193,7 +202,7 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 	 * @generated
 	 */
 	public EReference getDiagram_Diagrams() {
-		return (EReference)diagramEClass.getEStructuralFeatures().get(3);
+		return (EReference)diagramEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -259,6 +268,7 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 
 		diagramEClass = createEClass(DIAGRAM);
 		createEReference(diagramEClass, DIAGRAM__ELEMENTS);
+		createEAttribute(diagramEClass, DIAGRAM__NAME);
 		createEAttribute(diagramEClass, DIAGRAM__ID);
 		createEReference(diagramEClass, DIAGRAM__HIDDEN_RELATIONS);
 		createEReference(diagramEClass, DIAGRAM__DIAGRAMS);
@@ -306,6 +316,7 @@ public class SmartdesignerPackageImpl extends EPackageImpl implements Smartdesig
 
 		initEClass(diagramEClass, Diagram.class, "Diagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDiagram_Elements(), this.getGraphicalElement(), null, "elements", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Name(), ecorePackage.getEString(), "name", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDiagram_Id(), ecorePackage.getELong(), "id", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_HiddenRelations(), ecorePackage.getEObject(), null, "hiddenRelations", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_Diagrams(), this.getDiagram(), null, "diagrams", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

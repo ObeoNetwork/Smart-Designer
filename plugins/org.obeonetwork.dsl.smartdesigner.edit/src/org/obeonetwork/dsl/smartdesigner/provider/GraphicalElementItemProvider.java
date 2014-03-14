@@ -73,17 +73,19 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addSemanticElementPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(
-						((ComposeableAdapterFactory) adapterFactory)
-								.getRootAdapterFactory(),
-						getResourceLocator(),
-						getString("_UI_GraphicalElement_semanticElement_feature"),
-						getString("_UI_PropertyDescriptor_description",
-								"_UI_GraphicalElement_semanticElement_feature",
-								"_UI_GraphicalElement_type"),
-						SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__SEMANTIC_ELEMENT,
-						true, false, true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphicalElement_semanticElement_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphicalElement_semanticElement_feature", "_UI_GraphicalElement_type"),
+				 SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__SEMANTIC_ELEMENT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -93,17 +95,19 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addHiddenPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_GraphicalElement_hidden_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_GraphicalElement_hidden_feature",
-						"_UI_GraphicalElement_type"),
-				SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__HIDDEN, true,
-				false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null,
-				null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphicalElement_hidden_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphicalElement_hidden_feature", "_UI_GraphicalElement_type"),
+				 SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__HIDDEN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -113,26 +117,26 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addDiagramsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_GraphicalElement_diagrams_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_GraphicalElement_diagrams_feature",
-						"_UI_GraphicalElement_type"),
-				SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__DIAGRAMS,
-				true, false, true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphicalElement_diagrams_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphicalElement_diagrams_feature", "_UI_GraphicalElement_type"),
+				 SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__DIAGRAMS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -140,21 +144,18 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures
-					.add(SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__CHILD);
+			childrenFeatures.add(SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__CHILD);
 		}
 		return childrenFeatures;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
@@ -214,11 +215,10 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -226,14 +226,12 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(GraphicalElement.class)) {
-		case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), false, true));
-			return;
-		case SmartdesignerPackage.GRAPHICAL_ELEMENT__CHILD:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
+			case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case SmartdesignerPackage.GRAPHICAL_ELEMENT__CHILD:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -250,9 +248,10 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 			Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(
-				SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__CHILD,
-				SmartdesignerFactory.eINSTANCE.createGraphicalElement()));
+		newChildDescriptors.add
+			(createChildParameter
+				(SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__CHILD,
+				 SmartdesignerFactory.eINSTANCE.createGraphicalElement()));
 	}
 
 	/**
