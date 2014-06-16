@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Name: org.obeonetwork.dsl.smartdesigner
-Bundle-SymbolicName: org.obeonetwork.dsl.smartdesigner.design;singleton=true
-Bundle-Version: 1.5.0.qualifier
+Bundle-SymbolicName: org.obeonetwork.dsl.smartdesigner.design;singleton:=true
+Bundle-Version: 1.5.1.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  fr.obeo.dsl.viewpoint,
@@ -18,8 +18,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.obeonetwork.dsl.smartdesigner.design.Activator
-Provide-Package: org.obeonetwork.dsl.smartdesigner.design.actions,
- org.obeonetwork.dsl.smartdesigner.design.dialogs,
- org.obeonetwork.dsl.smartdesigner.design.popups,
- org.obeonetwork.dsl.smartdesigner.design.tx,
- org.obeonetwork.dsl.smartdesigner.design.util
+Export-Package: org.obeonetwork.dsl.smartdesigner.design.actions,org.obeonetwork.dsl.smartdesigner.design.dialogs,org.obeonetwork.dsl.smartdesigner.design.popups,org.obeonetwork.dsl.smartdesigner.design.tx,org.obeonetwork.dsl.smartdesigner.design.util
+Bundle-ManifestVersion: 2
