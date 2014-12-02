@@ -84,10 +84,6 @@ public class SmartdesignerAdapterFactory extends AdapterFactoryImpl {
 				return createDocumentRootAdapter();
 			}
 			@Override
-			public Adapter caseAccessControl(AccessControl object) {
-				return createAccessControlAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -146,20 +142,6 @@ public class SmartdesignerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDocumentRootAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.obeonetwork.dsl.smartdesigner.AccessControl <em>Access Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.obeonetwork.dsl.smartdesigner.AccessControl
-	 * @generated
-	 */
-	public Adapter createAccessControlAdapter() {
 		return null;
 	}
 

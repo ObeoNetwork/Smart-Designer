@@ -12,6 +12,7 @@
 package org.obeonetwork.dsl.smartdesigner.design.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -184,11 +185,13 @@ public class ConnectorServices {
 		}
 
 		Set<GraphicalElement> resultSet = new HashSet<GraphicalElement>();
-		for (GraphicalElement ge : diagram.getElements()) {
+		for (GraphicalElement ge : getAllGraphicalElements(diagram)) {
 			if (ge != graphicalElement) {
 				EObject sourceObject = graphicalElement.getSemanticElement();
 				EObject targetObject = ge.getSemanticElement();
 				if (compare(sourceObject, targetObject) > 0 && //
+						!isAncestor(graphicalElement, ge) && //
+						!isAncestor(ge, graphicalElement) && //
 						(//
 						existRelation(sourceObject, targetObject)//
 						|| //
@@ -201,18 +204,55 @@ public class ConnectorServices {
 		}
 		return new ArrayList<GraphicalElement>(resultSet);
 	}
+	
+	private boolean isAncestor(GraphicalElement potentialAncestor, GraphicalElement potentialChild) {
+		if (potentialAncestor == potentialChild) {
+			return true;
+		} else {
+			EObject childContainer = potentialChild.eContainer();
+			if (childContainer != null &&  childContainer instanceof GraphicalElement) {
+				if (childContainer == potentialAncestor) {
+					return true;
+				} else {
+					return isAncestor(potentialAncestor, (GraphicalElement)childContainer);
+				}
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	private Collection<GraphicalElement> getAllGraphicalElements(Diagram diagram) {
+		Collection<GraphicalElement> elements = new ArrayList<GraphicalElement>();
+		elements.addAll(diagram.getElements());
+		for (GraphicalElement graphicalElement : diagram.getElements()) {
+			elements.addAll(getAllGraphicalElements(graphicalElement));
+		}
+		return elements;
+	}
+	
+	private Collection<GraphicalElement> getAllGraphicalElements(GraphicalElement graphicalElement) {
+		Collection<GraphicalElement> elements = new ArrayList<GraphicalElement>();
+		elements.addAll(graphicalElement.getChild());
+		for (GraphicalElement child : graphicalElement.getChild()) {
+			elements.addAll(getAllGraphicalElements(child));
+		}
+		return elements;
+	}
 
 	public List<GraphicalElement> getExtendedRelatedElements(
 			GraphicalElement graphicalElement) {
 		Diagram diagram = BasicDiagramUtil.getDiagram(graphicalElement);
 		final Set<GraphicalElement> resultSet = new HashSet<GraphicalElement>();
 		if (diagram != null) {
-			for (GraphicalElement ge : diagram.getElements()) {
+			for (GraphicalElement ge : getAllGraphicalElements(diagram)) {
 				if (ge != graphicalElement) {
 					EObject sourceObject = graphicalElement
 							.getSemanticElement();
 					EObject targetObject = ge.getSemanticElement();
 					if (compare(sourceObject, targetObject) > 0 && //
+							!isAncestor(graphicalElement, ge) && //
+							!isAncestor(ge, graphicalElement) && //
 							(//
 							existExtendedRelation(sourceObject, targetObject)//
 							|| //
@@ -296,6 +336,7 @@ public class ConnectorServices {
 		int result = ((CDOObject) sourceObject).cdoID().compareTo(
 				((CDOObject) targetObject).cdoID());
 		return result;
+//		return sourceObject.toString().compareTo(targetObject.toString());
 	}
 
 	/**

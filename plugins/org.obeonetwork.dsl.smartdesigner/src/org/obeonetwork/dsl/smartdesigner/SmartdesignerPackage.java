@@ -143,13 +143,22 @@ public interface SmartdesignerPackage extends EPackage {
 	int DIAGRAM__NAME = 1;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__ID = 2;
+
+	/**
 	 * The feature id for the '<em><b>Hidden Relations</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__HIDDEN_RELATIONS = 2;
+	int DIAGRAM__HIDDEN_RELATIONS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
@@ -158,16 +167,7 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__DIAGRAMS = 3;
-
-	/**
-	 * The feature id for the '<em><b>Access Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAGRAM__ACCESS_CONTROL = 4;
+	int DIAGRAM__DIAGRAMS = 4;
 
 	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
@@ -207,60 +207,13 @@ public interface SmartdesignerPackage extends EPackage {
 	int DOCUMENT_ROOT__SEMANTIC_MODEL = 1;
 
 	/**
-	 * The feature id for the '<em><b>Access Controls</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__ACCESS_CONTROLS = 2;
-
-	/**
 	 * The number of structural features of the '<em>Document Root</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.obeonetwork.dsl.smartdesigner.impl.AccessControlImpl <em>Access Control</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.obeonetwork.dsl.smartdesigner.impl.AccessControlImpl
-	 * @see org.obeonetwork.dsl.smartdesigner.impl.SmartdesignerPackageImpl#getAccessControl()
-	 * @generated
-	 */
-	int ACCESS_CONTROL = 3;
-
-	/**
-	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_CONTROL__DIAGRAMS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Access Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_CONTROL__ACCESS_CONTROL = 1;
-
-	/**
-	 * The number of structural features of the '<em>Access Control</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_CONTROL_FEATURE_COUNT = 2;
-
+	int DOCUMENT_ROOT_FEATURE_COUNT = 2;
 
 	/**
 	 * Returns the meta object for class '{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement <em>Graphical Element</em>}'.
@@ -349,6 +302,17 @@ public interface SmartdesignerPackage extends EPackage {
 	EAttribute getDiagram_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getId()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Id();
+
+	/**
 	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getHiddenRelations <em>Hidden Relations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -369,17 +333,6 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDiagram_Diagrams();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getAccessControl <em>Access Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Access Control</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getAccessControl()
-	 * @see #getDiagram()
-	 * @generated
-	 */
-	EAttribute getDiagram_AccessControl();
 
 	/**
 	 * Returns the meta object for class '{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot <em>Document Root</em>}'.
@@ -412,49 +365,6 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDocumentRoot_SemanticModel();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot#getAccessControls <em>Access Controls</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Access Controls</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.DocumentRoot#getAccessControls()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_AccessControls();
-
-	/**
-	 * Returns the meta object for class '{@link org.obeonetwork.dsl.smartdesigner.AccessControl <em>Access Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Access Control</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.AccessControl
-	 * @generated
-	 */
-	EClass getAccessControl();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.AccessControl#getDiagrams <em>Diagrams</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Diagrams</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.AccessControl#getDiagrams()
-	 * @see #getAccessControl()
-	 * @generated
-	 */
-	EReference getAccessControl_Diagrams();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.obeonetwork.dsl.smartdesigner.AccessControl#getAccessControl <em>Access Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Access Control</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.AccessControl#getAccessControl()
-	 * @see #getAccessControl()
-	 * @generated
-	 */
-	EAttribute getAccessControl_AccessControl();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -547,6 +457,14 @@ public interface SmartdesignerPackage extends EPackage {
 		EAttribute DIAGRAM__NAME = eINSTANCE.getDiagram_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__ID = eINSTANCE.getDiagram_Id();
+
+		/**
 		 * The meta object literal for the '<em><b>Hidden Relations</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -561,14 +479,6 @@ public interface SmartdesignerPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DIAGRAM__DIAGRAMS = eINSTANCE.getDiagram_Diagrams();
-
-		/**
-		 * The meta object literal for the '<em><b>Access Control</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM__ACCESS_CONTROL = eINSTANCE.getDiagram_AccessControl();
 
 		/**
 		 * The meta object literal for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl <em>Document Root</em>}' class.
@@ -595,40 +505,6 @@ public interface SmartdesignerPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__SEMANTIC_MODEL = eINSTANCE.getDocumentRoot_SemanticModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Access Controls</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference DOCUMENT_ROOT__ACCESS_CONTROLS = eINSTANCE.getDocumentRoot_AccessControls();
-
-		/**
-		 * The meta object literal for the '{@link org.obeonetwork.dsl.smartdesigner.impl.AccessControlImpl <em>Access Control</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.obeonetwork.dsl.smartdesigner.impl.AccessControlImpl
-		 * @see org.obeonetwork.dsl.smartdesigner.impl.SmartdesignerPackageImpl#getAccessControl()
-		 * @generated
-		 */
-		EClass ACCESS_CONTROL = eINSTANCE.getAccessControl();
-
-		/**
-		 * The meta object literal for the '<em><b>Diagrams</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ACCESS_CONTROL__DIAGRAMS = eINSTANCE.getAccessControl_Diagrams();
-
-		/**
-		 * The meta object literal for the '<em><b>Access Control</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ACCESS_CONTROL__ACCESS_CONTROL = eINSTANCE.getAccessControl_AccessControl();
 
 	}
 

@@ -106,7 +106,6 @@ public class DocumentRootItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(SmartdesignerPackage.Literals.DOCUMENT_ROOT__DIAGRAMS);
-			childrenFeatures.add(SmartdesignerPackage.Literals.DOCUMENT_ROOT__ACCESS_CONTROLS);
 		}
 		return childrenFeatures;
 	}
@@ -159,7 +158,6 @@ public class DocumentRootItemProvider
 
 		switch (notification.getFeatureID(DocumentRoot.class)) {
 			case SmartdesignerPackage.DOCUMENT_ROOT__DIAGRAMS:
-			case SmartdesignerPackage.DOCUMENT_ROOT__ACCESS_CONTROLS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -181,11 +179,6 @@ public class DocumentRootItemProvider
 			(createChildParameter
 				(SmartdesignerPackage.Literals.DOCUMENT_ROOT__DIAGRAMS,
 				 SmartdesignerFactory.eINSTANCE.createDiagram()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(SmartdesignerPackage.Literals.DOCUMENT_ROOT__ACCESS_CONTROLS,
-				 SmartdesignerFactory.eINSTANCE.createAccessControl()));
 	}
 
 	/**

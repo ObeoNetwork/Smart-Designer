@@ -145,29 +145,6 @@ public class SmartdesignerItemProviderAdapterFactory extends SmartdesignerAdapte
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.obeonetwork.dsl.smartdesigner.AccessControl} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected AccessControlItemProvider accessControlItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.obeonetwork.dsl.smartdesigner.AccessControl}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createAccessControlAdapter() {
-		if (accessControlItemProvider == null) {
-			accessControlItemProvider = new AccessControlItemProvider(this);
-		}
-
-		return accessControlItemProvider;
-	}
-
-	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -269,7 +246,6 @@ public class SmartdesignerItemProviderAdapterFactory extends SmartdesignerAdapte
 		if (graphicalElementItemProvider != null) graphicalElementItemProvider.dispose();
 		if (diagramItemProvider != null) diagramItemProvider.dispose();
 		if (documentRootItemProvider != null) documentRootItemProvider.dispose();
-		if (accessControlItemProvider != null) accessControlItemProvider.dispose();
 	}
 
 }

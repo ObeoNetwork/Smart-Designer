@@ -68,9 +68,9 @@ public class DiagramItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addIdPropertyDescriptor(object);
 			addHiddenRelationsPropertyDescriptor(object);
 			addDiagramsPropertyDescriptor(object);
-			addAccessControlPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -93,6 +93,28 @@ public class DiagramItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Id feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIdPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Diagram_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_id_feature", "_UI_Diagram_type"),
+				 SmartdesignerPackage.Literals.DIAGRAM__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -137,28 +159,6 @@ public class DiagramItemProvider
 				 false,
 				 true,
 				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Access Control feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAccessControlPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Diagram_accessControl_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_accessControl_feature", "_UI_Diagram_type"),
-				 SmartdesignerPackage.Literals.DIAGRAM__ACCESS_CONTROL,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -231,7 +231,7 @@ public class DiagramItemProvider
 
 		switch (notification.getFeatureID(Diagram.class)) {
 			case SmartdesignerPackage.DIAGRAM__NAME:
-			case SmartdesignerPackage.DIAGRAM__ACCESS_CONTROL:
+			case SmartdesignerPackage.DIAGRAM__ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case SmartdesignerPackage.DIAGRAM__ELEMENTS:

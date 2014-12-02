@@ -15,12 +15,12 @@
   <parent>
         <artifactId>org.obeonetwork.dsl.smartdesigner.parent</artifactId>
         <groupId>Smart-Designer</groupId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.5.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>Smart-Designer</groupId>
   <artifactId>org.obeonetwork.dsl.smartdesigner.feature</artifactId>
-  <version>1.4.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 
   <name>Smart Designer Feature</name>

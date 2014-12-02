@@ -23,11 +23,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  * Utility class for EMF objects.
@@ -41,7 +39,8 @@ public class EMFUtil {
 	 * Predefined feature names used to retrieve names from {@link EObject}s.
 	 */
 	private static final Collection<String> FEATURE_NAMES = Arrays
-			.asList(new String[] { "name", "nom", "label", "libellé", "libelle" });
+			.asList(new String[] { "name", "nom", "label", "libellé",
+					"libelle" });
 
 	/**
 	 * Tries to find a label for the given object.
@@ -99,6 +98,11 @@ public class EMFUtil {
 		return null;
 	}
 
+	/** Label provider */
+	private static final AdapterFactoryLabelProvider LABEL_PROVIDER = new AdapterFactoryLabelProvider(
+			new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+
 	/**
 	 * Get the image corresponding to the EObject <code>eObject</code> (looks
 	 * for the image in the .edit plugin).
@@ -111,20 +115,7 @@ public class EMFUtil {
 		if (eObject == null) {
 			return null;
 		}
-
-		Image result = null;
-		Bundle bundle = FrameworkUtil.getBundle(eObject.getClass());
-		ImageDescriptor imageDescriptor = AbstractUIPlugin
-				.imageDescriptorFromPlugin(
-						bundle.getSymbolicName() + ".edit",
-						"icons/full/obj16/"
-								+ eObject.getClass().getSimpleName()
-										.replace("Impl", "") + ".gif");
-		if (imageDescriptor == null) {
-			return null;
-		}
-		result = imageDescriptor.createImage(true);
-		return result;
+		return LABEL_PROVIDER.getImage(eObject);
 	}
 
 	/**
@@ -140,15 +131,17 @@ public class EMFUtil {
 	 */
 	public static List<EReference> getReferencesBetween(EObject sourceElement,
 			EObject targetElement) {
-		EList<EReference> references = sourceElement.eClass()
-				.getEAllReferences();
 		List<EReference> result = new ArrayList<EReference>();
-		for (EReference ref : references) {
-			List<String> implementedInterfaces = getImplementedInterfaces(targetElement
-					.getClass());
-			if (implementedInterfaces.contains(ref.getEReferenceType()
-					.getInstanceClassName())) {
-				result.add(ref);
+		if (sourceElement != null && targetElement != null) {
+			EList<EReference> references = sourceElement.eClass()
+					.getEAllReferences();
+			for (EReference ref : references) {
+				List<String> implementedInterfaces = getImplementedInterfaces(targetElement
+						.getClass());
+				if (implementedInterfaces.contains(ref.getEReferenceType()
+						.getInstanceClassName())) {
+					result.add(ref);
+				}
 			}
 		}
 		return result;

@@ -22,13 +22,21 @@
 
 package org.obeonetwork.dsl.smartdesigner.design.providers;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.CreateEditPoliciesOperation;
 import org.eclipse.gmf.runtime.diagram.ui.services.editpolicy.IEditPolicyProvider;
+import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.design.graphical.edit.policies.SmartPopupBarEditPolicy;
 
+import fr.obeo.dsl.common.tools.api.util.Option;
+import fr.obeo.dsl.viewpoint.DDiagram;
+import fr.obeo.dsl.viewpoint.DDiagramElement;
+import fr.obeo.dsl.viewpoint.DSemanticDiagram;
+import fr.obeo.dsl.viewpoint.diagram.edit.api.part.AbstractDDiagramEditPart;
 import fr.obeo.dsl.viewpoint.diagram.edit.api.part.IDDiagramEditPart;
 import fr.obeo.dsl.viewpoint.diagram.edit.api.part.IDiagramElementEditPart;
 
@@ -45,7 +53,33 @@ public class SmartPopupBarEditpolicyProvider extends AbstractProvider implements
 	 */
 	@Override
 	public boolean provides(IOperation operation) {
-		return true;
+		boolean provides = false;
+		if (operation instanceof CreateEditPoliciesOperation) {
+			CreateEditPoliciesOperation createEditPoliciesOperation = (CreateEditPoliciesOperation) operation;
+			EditPart editPart = createEditPoliciesOperation.getEditPart();
+			DDiagram dDiagram = null;
+			if (editPart instanceof IDDiagramEditPart) {
+				AbstractDDiagramEditPart abstractDDiagramEditPart = (AbstractDDiagramEditPart) editPart;
+				Option<DDiagram> dDiagramOption = abstractDDiagramEditPart
+						.resolveDDiagram();
+				if (dDiagramOption.some()) {
+					dDiagram = dDiagramOption.get();
+				}
+			} else if (editPart instanceof IDiagramElementEditPart) {
+				IDiagramElementEditPart diagramElementEditPart = (IDiagramElementEditPart) editPart;
+				DDiagramElement dDiagramElement = diagramElementEditPart
+						.resolveDiagramElement();
+				if (dDiagramElement != null) {
+					dDiagram = dDiagramElement.getParentDiagram();
+				}
+			}
+			if (dDiagram instanceof DSemanticDiagram) {
+				DSemanticDiagram dSemanticDiagram = (DSemanticDiagram) dDiagram;
+				EObject target = dSemanticDiagram.getTarget();
+				provides = target instanceof Diagram;
+			}
+		}
+		return provides;
 	}
 
 	/**
@@ -55,8 +89,8 @@ public class SmartPopupBarEditpolicyProvider extends AbstractProvider implements
 	 */
 	@Override
 	public void createEditPolicies(EditPart editPart) {
-			editPart.installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
-					new SmartPopupBarEditPolicy());
+		editPart.installEditPolicy(EditPolicyRoles.POPUPBAR_ROLE,
+				new SmartPopupBarEditPolicy());
 	}
 
 }

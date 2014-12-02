@@ -101,7 +101,7 @@ public class MagicConnector implements IExternalJavaAction {
 	 *            The list of EReference between sourceElement and
 	 *            targetElement.
 	 */
-	private void manyReferencesTreatment(EObject sourceElement,
+	protected void manyReferencesTreatment(EObject sourceElement,
 			EObject targetElement, List<EReference> references) {
 		MagicConnectorPopup dialog = new MagicConnectorPopup(PlatformUI
 				.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -125,7 +125,7 @@ public class MagicConnector implements IExternalJavaAction {
 	 * @param reference
 	 *            The EReference between sourceElement and targetElement.
 	 */
-	private void oneReferenceTreatment(EObject sourceElement,
+	protected void oneReferenceTreatment(EObject sourceElement,
 			EObject targetElement, EReference reference) {
 		InformationPopup dialog = new InformationPopup(PlatformUI
 				.getWorkbench().getActiveWorkbenchWindow().getShell(), 0, true,
@@ -139,7 +139,7 @@ public class MagicConnector implements IExternalJavaAction {
 	 * Treatment to do if no reference between the sourceElement and the
 	 * targetElement exists.
 	 */
-	private void noReferenceTreatment() {
+	protected void noReferenceTreatment() {
 		InformationPopup dialog = new InformationPopup(PlatformUI
 				.getWorkbench().getActiveWorkbenchWindow().getShell(), 0, true,
 				true, true, false, true, "No direct reference available", null);

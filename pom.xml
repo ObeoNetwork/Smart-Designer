@@ -18,7 +18,7 @@
 	
   <groupId>Smart-Designer</groupId>
   <artifactId>org.obeonetwork.dsl.smartdesigner.parent</artifactId>
-  <version>1.4.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>Smart Designer Parent</name>
@@ -70,7 +70,18 @@
     <repository>
       <id>viewpoint</id>
       <layout>p2</layout>
-     <url>http://update.obeo.fr/release/designer/6.1.2rc1/juno3/update/repository/</url>
+     <!-- <url>http://update.obeo.fr/maintenance/od/6.2/juno3/update/repository/</url>-->
+     <url>http://update.obeo.fr/release/designer/6.1.2/juno3/update/repository/</url>
+    </repository>
+    <repository>
+      <id>CDO</id>
+      <layout>p2</layout>
+     <url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2</url>
+    </repository>
+    <repository>
+      <id>Net4J</id>
+      <layout>p2</layout>
+     <url>http://net4j.sourceforge.net/update/</url>
     </repository>
     <repository>
       <id>Acceleo2</id>

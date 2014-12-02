@@ -73,8 +73,8 @@ public abstract class AbstractSelectConnectedElements implements
 		if (!(d instanceof DDiagram)) {
 			return;
 		}
-		DDiagram ddiagram = (DDiagram)d;
-		
+		DDiagram ddiagram = (DDiagram) d;
+
 		Object c = parameters.get("container");
 		if (!(c instanceof GraphicalElement)) {
 			return;
@@ -92,8 +92,8 @@ public abstract class AbstractSelectConnectedElements implements
 				.getCrossReferencedElements(graphicalElement);
 
 		if (crossReferencedObjects.size() > 0) {
-			Map<EObject, Map<EClass, Set<EObject>>> model = getModel(graphicalElement,
-					existingElements, crossReferencedObjects);
+			Map<EObject, Map<EClass, Set<EObject>>> model = getModel(
+					graphicalElement, existingElements, crossReferencedObjects);
 			if (model == null) {
 				openNoElementDialogBox();
 			} else {
@@ -105,7 +105,8 @@ public abstract class AbstractSelectConnectedElements implements
 						Activator.getConnectedElementsImage(), 400, 400);
 				dialog.open();
 				if (!dialog.isCanceled()) {
-					createNewElements(graphicalElement, dialog.getSelectedEObjects());
+					createNewElements(graphicalElement,
+							dialog.getSelectedEObjects());
 				}
 			}
 			ddiagram.refresh();
@@ -141,13 +142,15 @@ public abstract class AbstractSelectConnectedElements implements
 	public abstract Map<EClass, List<EClass>> getArchitectures();
 
 	/**
-	 * @param graphicalElement  the selected {@link GraphicalElement}
+	 * @param graphicalElement
+	 *            the selected {@link GraphicalElement}
 	 * @param existingElements
 	 * @param crossReferencedObjects
 	 * @return Null if no element found.
 	 */
 	private final Map<EObject, Map<EClass, Set<EObject>>> getModel(
-			GraphicalElement graphicalElement, Set<EObject> existingElements, Set<EObject> crossReferencedObjects) {
+			GraphicalElement graphicalElement, Set<EObject> existingElements,
+			Set<EObject> crossReferencedObjects) {
 		Map<EObject, Map<EClass, Set<EObject>>> result = Maps
 				.newTreeMap(new Comparator<EObject>() {
 					@Override
@@ -182,10 +185,12 @@ public abstract class AbstractSelectConnectedElements implements
 										@Override
 										public int compare(EObject o1,
 												EObject o2) {
-											return EMFUtil
+											int compResult = EMFUtil
 													.retrieveNameFrom(o1)
 													.compareTo(
 															EMFUtil.retrieveNameFrom(o2));
+											return compResult == 0 ? -1
+													: compResult;
 										}
 									});
 							d.put(eObject.eClass(), eObjects);
@@ -196,22 +201,25 @@ public abstract class AbstractSelectConnectedElements implements
 				}
 			}
 		}
-		
+
 		Map<EObject, Set<EObject>> extendedRelatedElements = ConnectedElementsExtensionRegistry
-		.getExtendedRelatedElements(graphicalElement.getSemanticElement());
-		for (Set<EObject> extendedRelatedElement : extendedRelatedElements.values()) {
+				.getExtendedRelatedElements(graphicalElement
+						.getSemanticElement());
+		for (Set<EObject> extendedRelatedElement : extendedRelatedElements
+				.values()) {
 			for (EObject eObject : extendedRelatedElement) {
 				if (!existingElements.contains(eObject)) {
 					for (Entry<EClass, List<EClass>> entry : architectures
 							.entrySet()) {
 						if (entry.getValue().contains(eObject.eClass())) {
-							Map<EClass, Set<EObject>> d = result
-									.get(entry.getKey());
+							Map<EClass, Set<EObject>> d = result.get(entry
+									.getKey());
 							if (d == null) {
 								d = Maps.newTreeMap(new Comparator<EClass>() {
 									@Override
 									public int compare(EClass o1, EClass o2) {
-										return o1.getName().compareTo(o2.getName());
+										return o1.getName().compareTo(
+												o2.getName());
 									}
 								});
 								result.put(entry.getKey(), d);
@@ -238,7 +246,7 @@ public abstract class AbstractSelectConnectedElements implements
 				}
 			}
 		}
-		
+
 		return oneElement ? result : null;
 	}
 

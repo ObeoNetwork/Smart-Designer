@@ -71,14 +71,14 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 					// The semantic element can be null.
 					removeEObject(graphicalElement);
 				} else {
-					removeEObject(semanticElement);
-					// Delete all the graphical elements that have the object
-					// semanticElement as semantic element.
 					List<GraphicalElement> graphicalElements = BasicDiagramUtil
 							.getGraphicalElementsWhereSemanticElementAppears(
 									BasicDiagramUtil
 											.getDocumentRoot(graphicalElement),
 									semanticElement);
+					removeEObject(semanticElement);
+					// Delete all the graphical elements that have the object
+					// semanticElement as semantic element.
 					for (GraphicalElement ge : graphicalElements) {
 						removeEObject(ge);
 					}
@@ -130,7 +130,7 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 
 	/**
 	 * Remove the EObject <code>element</code> from his container and unset all
-	 * his references.
+	 * his references and cross references.
 	 * 
 	 * @param element
 	 *            The EObject to remove.
@@ -139,13 +139,12 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 		if (element == null) {
 			return;
 		}
-		EcoreUtil.remove(element.eContainer(), element.eContainingFeature(),
-				element);
 		// Unset all references to avoid dangling references
 		for (EStructuralFeature sf : element.eClass()
 				.getEAllStructuralFeatures()) {
 			element.eUnset(sf);
 		}
+		EcoreUtil.delete(element, true);
 	}
 
 }
