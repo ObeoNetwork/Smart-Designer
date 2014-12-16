@@ -52,41 +52,17 @@
   </modules>
   
   <repositories>
-    <repository>
+  <repository>
       <id>indigo</id>
       <layout>p2</layout>
       <url>http://download.eclipse.org/releases/juno</url>
     </repository>
     <repository>
-      <id>EEF</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/modeling/emft/eef/updates/releases/1.0</url>
-    </repository>
-    <repository>
-      <id>EEF-ViewpointBridge</id>
-      <layout>p2</layout>
-      <url>http://www.obeo.fr/download/release/designer-extensions/update</url>
-    </repository>
-    <repository>
-      <id>viewpoint</id>
+      <id>smartea</id>
       <layout>p2</layout>
      <!-- <url>http://update.obeo.fr/maintenance/od/6.2/juno3/update/repository/</url>-->
-     <url>http://update.obeo.fr/release/designer/6.1.2/juno3/update/repository/</url>
-    </repository>
-    <repository>
-      <id>CDO</id>
-      <layout>p2</layout>
-     <url>http://download.eclipse.org/modeling/emf/cdo/updates/releases/4.2</url>
-    </repository>
-    <repository>
-      <id>Net4J</id>
-      <layout>p2</layout>
-     <url>http://net4j.sourceforge.net/update/</url>
-    </repository>
-    <repository>
-      <id>Acceleo2</id>
-      <layout>p2</layout>
-      <url>http://update.obeo.fr/stable/acceleo/stable-2.8.0/fr.obeo.acceleo.update/</url>
+     <!--<url>http://update.obeo.fr/release/designer/6.1.2/juno3/update/repository/</url>-->
+     <url>http://update.obeo.fr/bundles/ObeoSmartEA/integration/tp/1.5.4</url>
     </repository>
   </repositories>
   
