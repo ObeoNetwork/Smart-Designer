@@ -15,12 +15,12 @@
   <parent>
         <artifactId>org.obeonetwork.dsl.smartdesigner.parent</artifactId>
         <groupId>Smart-Designer</groupId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.5.4-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>Smart-Designer</groupId>
   <artifactId>org.obeonetwork.dsl.smartdesigner.repository</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
 
   <build>

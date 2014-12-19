@@ -18,7 +18,7 @@
 	
   <groupId>Smart-Designer</groupId>
   <artifactId>org.obeonetwork.dsl.smartdesigner.parent</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>Smart Designer Parent</name>
