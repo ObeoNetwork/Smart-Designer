@@ -24,6 +24,7 @@ import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
 import org.obeonetwork.dsl.smartdesigner.design.popups.DeletePopup;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
 
+import fr.obeo.dsl.viewpoint.DEdge;
 import fr.obeo.dsl.viewpoint.tools.api.ui.IExternalJavaAction;
 
 /**
@@ -58,6 +59,13 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 	public void execute(Collection<? extends EObject> selections,
 			Map<String, Object> parameters) {
 
+		Object oView = parameters.get("elementView");
+		if(oView instanceof DEdge){
+			DEdge dEdge = (DEdge) oView;
+			deleteEdge(dEdge);
+			return;
+		}
+		
 		Object o = parameters.get("element");
 		if (o instanceof GraphicalElement) {
 			GraphicalElement graphicalElement = (GraphicalElement) o;
@@ -108,6 +116,10 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 
 	}
 
+	protected void deleteEdge(DEdge dEdge) {
+		// Nothing
+	}
+
 	/**
 	 * Treatment that opens a dialog asking the user if he wants to remove only
 	 * the graphical element or the graphical element and the semantic element.
@@ -119,7 +131,7 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 	 * @returns -1 == nothing to do ; 0 == delete the semantic element ; 1 =
 	 *          delete only the graphical representation
 	 */
-	private int deleteElement(GraphicalElement graphicalElement,
+	protected int deleteElement(GraphicalElement graphicalElement,
 			EObject semanticElement) {
 		DeletePopup dialog = new DeletePopup(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell());

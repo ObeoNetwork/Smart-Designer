@@ -27,12 +27,6 @@ Contributors:
              id="org.obeonetwork.dsl.smartdesigner.design.actions.MagicConnector">
        </javaActions>
   </extension>
-   <extension point="fr.obeo.dsl.viewpoint.externalJavaAction">
-       <javaActions
-             actionClass="org.obeonetwork.dsl.smartdesigner.design.actions.DeleteGraphicalElement"
-             id="org.obeonetwork.dsl.smartdesigner.design.actions.DeleteGraphicalElement">
-       </javaActions>
-  </extension>
     <extension
           point="org.eclipse.gmf.runtime.diagram.ui.editpolicyProviders">
        <editpolicyProvider
