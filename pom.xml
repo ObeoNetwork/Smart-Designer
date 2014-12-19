@@ -61,8 +61,8 @@
       <id>smartea</id>
       <layout>p2</layout>
      <!-- <url>http://update.obeo.fr/maintenance/od/6.2/juno3/update/repository/</url>-->
-     <!--<url>http://update.obeo.fr/release/designer/6.1.2/juno3/update/repository/</url>-->
-     <url>http://update.obeo.fr/bundles/ObeoSmartEA/integration/tp/1.5.4</url>
+     <url>http://update.obeo.fr/release/designer/6.1.2/juno3/update/repository/</url>
+     <!--<url>http://update.obeo.fr/bundles/ObeoSmartEA/integration/tp/1.5.4</url>-->
     </repository>
   </repositories>
   
