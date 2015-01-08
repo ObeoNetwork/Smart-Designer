@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getElements <em>Elements</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getName <em>Name</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getId <em>Id</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getHiddenRelations <em>Hidden Relations</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.Diagram#getDiagrams <em>Diagrams</em>}</li>
  * </ul>
  * </p>
@@ -101,22 +100,6 @@ public interface Diagram extends CDOObject {
 	 * @generated
 	 */
 	void setId(long value);
-
-	/**
-	 * Returns the value of the '<em><b>Hidden Relations</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Hidden Relations</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Hidden Relations</em>' reference list.
-	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getDiagram_HiddenRelations()
-	 * @model
-	 * @generated
-	 */
-	EList<EObject> getHiddenRelations();
 
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' reference list.

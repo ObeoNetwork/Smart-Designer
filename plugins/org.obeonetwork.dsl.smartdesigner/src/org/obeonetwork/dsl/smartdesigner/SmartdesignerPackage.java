@@ -152,22 +152,13 @@ public interface SmartdesignerPackage extends EPackage {
 	int DIAGRAM__ID = 2;
 
 	/**
-	 * The feature id for the '<em><b>Hidden Relations</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAGRAM__HIDDEN_RELATIONS = 3;
-
-	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM__DIAGRAMS = 4;
+	int DIAGRAM__DIAGRAMS = 3;
 
 	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
@@ -176,7 +167,7 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = 5;
+	int DIAGRAM_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl <em>Document Root</em>}' class.
@@ -311,17 +302,6 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDiagram_Id();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getHiddenRelations <em>Hidden Relations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Hidden Relations</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getHiddenRelations()
-	 * @see #getDiagram()
-	 * @generated
-	 */
-	EReference getDiagram_HiddenRelations();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getDiagrams <em>Diagrams</em>}'.
@@ -463,14 +443,6 @@ public interface SmartdesignerPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIAGRAM__ID = eINSTANCE.getDiagram_Id();
-
-		/**
-		 * The meta object literal for the '<em><b>Hidden Relations</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference DIAGRAM__HIDDEN_RELATIONS = eINSTANCE.getDiagram_HiddenRelations();
 
 		/**
 		 * The meta object literal for the '<em><b>Diagrams</b></em>' reference list feature.

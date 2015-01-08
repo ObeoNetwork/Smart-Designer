@@ -69,7 +69,6 @@ public class DiagramItemProvider
 
 			addNamePropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
-			addHiddenRelationsPropertyDescriptor(object);
 			addDiagramsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -115,28 +114,6 @@ public class DiagramItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Hidden Relations feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addHiddenRelationsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Diagram_hiddenRelations_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Diagram_hiddenRelations_feature", "_UI_Diagram_type"),
-				 SmartdesignerPackage.Literals.DIAGRAM__HIDDEN_RELATIONS,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}

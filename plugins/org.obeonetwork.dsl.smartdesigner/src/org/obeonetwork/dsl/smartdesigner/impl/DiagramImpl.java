@@ -28,7 +28,6 @@ import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getElements <em>Elements</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getId <em>Id</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getHiddenRelations <em>Hidden Relations</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl#getDiagrams <em>Diagrams</em>}</li>
  * </ul>
  * </p>
@@ -131,15 +130,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<EObject> getHiddenRelations() {
-		return (EList<EObject>)eDynamicGet(SmartdesignerPackage.DIAGRAM__HIDDEN_RELATIONS, SmartdesignerPackage.Literals.DIAGRAM__HIDDEN_RELATIONS, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
 	public EList<Diagram> getDiagrams() {
 		return (EList<Diagram>)eDynamicGet(SmartdesignerPackage.DIAGRAM__DIAGRAMS, SmartdesignerPackage.Literals.DIAGRAM__DIAGRAMS, true, true);
 	}
@@ -172,8 +162,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 				return getName();
 			case SmartdesignerPackage.DIAGRAM__ID:
 				return getId();
-			case SmartdesignerPackage.DIAGRAM__HIDDEN_RELATIONS:
-				return getHiddenRelations();
 			case SmartdesignerPackage.DIAGRAM__DIAGRAMS:
 				return getDiagrams();
 		}
@@ -198,10 +186,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 				return;
 			case SmartdesignerPackage.DIAGRAM__ID:
 				setId((Long)newValue);
-				return;
-			case SmartdesignerPackage.DIAGRAM__HIDDEN_RELATIONS:
-				getHiddenRelations().clear();
-				getHiddenRelations().addAll((Collection<? extends EObject>)newValue);
 				return;
 			case SmartdesignerPackage.DIAGRAM__DIAGRAMS:
 				getDiagrams().clear();
@@ -228,9 +212,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 			case SmartdesignerPackage.DIAGRAM__ID:
 				setId(ID_EDEFAULT);
 				return;
-			case SmartdesignerPackage.DIAGRAM__HIDDEN_RELATIONS:
-				getHiddenRelations().clear();
-				return;
 			case SmartdesignerPackage.DIAGRAM__DIAGRAMS:
 				getDiagrams().clear();
 				return;
@@ -252,8 +233,6 @@ public class DiagramImpl extends CDOObjectImpl implements Diagram {
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case SmartdesignerPackage.DIAGRAM__ID:
 				return getId() != ID_EDEFAULT;
-			case SmartdesignerPackage.DIAGRAM__HIDDEN_RELATIONS:
-				return !getHiddenRelations().isEmpty();
 			case SmartdesignerPackage.DIAGRAM__DIAGRAMS:
 				return !getDiagrams().isEmpty();
 		}
