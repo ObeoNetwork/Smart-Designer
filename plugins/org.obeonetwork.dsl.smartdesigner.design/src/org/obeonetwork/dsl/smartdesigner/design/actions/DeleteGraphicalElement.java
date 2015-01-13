@@ -96,17 +96,18 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 				removeEObject(graphicalElement);
 			}
 			// In the case of deleting a diagram
-		} else if (o instanceof Diagram) {
-			Diagram diagram = (Diagram) o;
-			Object parentElement = parameters.get("parentElement");
-			// delete the reference between the parent diagram (container) and
-			// its son (the contained)
-			if (parentElement instanceof GraphicalElement) {
-				((GraphicalElement) parentElement).getDiagrams()
-						.remove(diagram);
-			} else if (parentElement instanceof Diagram) {
-				((Diagram) parentElement).getDiagrams().remove(diagram);
-			}
+//		} else if (o instanceof Diagram) {
+//			Diagram diagram = (Diagram) o;
+//			Object parentElement = parameters.get("parentElement");
+//			// delete the reference between the parent diagram (container) and
+//			// its son (the contained)
+//			if (parentElement instanceof GraphicalElement) {
+//				((GraphicalElement) parentElement).getDiagrams()
+//						.remove(diagram);
+//			}
+//			} else if (parentElement instanceof Diagram) {
+//				((Diagram) parentElement).getDiagrams().remove(diagram);
+//			}
 
 		}
 

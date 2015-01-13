@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement#getSemanticElement <em>Semantic Element</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement#getChild <em>Child</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement#isHidden <em>Hidden</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement#getDiagrams <em>Diagrams</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,21 +100,5 @@ public interface GraphicalElement extends CDOObject {
 	 * @generated
 	 */
 	void setHidden(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Diagrams</b></em>' reference list.
-	 * The list contents are of type {@link org.obeonetwork.dsl.smartdesigner.Diagram}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Diagrams</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Diagrams</em>' reference list.
-	 * @see org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage#getGraphicalElement_Diagrams()
-	 * @model required="true"
-	 * @generated
-	 */
-	EList<Diagram> getDiagrams();
 
 } // GraphicalElement

@@ -12,13 +12,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//GraphicalElement/semanticElement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//GraphicalElement/child"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute smartdesigner.ecore#//GraphicalElement/hidden"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//GraphicalElement/diagrams"/>
     </genClasses>
     <genClasses ecoreClass="smartdesigner.ecore#//Diagram">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//Diagram/elements"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute smartdesigner.ecore#//Diagram/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute smartdesigner.ecore#//Diagram/id"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//Diagram/diagrams"/>
     </genClasses>
     <genClasses ecoreClass="smartdesigner.ecore#//DocumentRoot">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference smartdesigner.ecore#//DocumentRoot/diagrams"/>

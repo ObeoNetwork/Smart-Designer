@@ -61,7 +61,6 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 
 			addSemanticElementPropertyDescriptor(object);
 			addHiddenPropertyDescriptor(object);
-			addDiagramsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -106,28 +105,6 @@ public class GraphicalElementItemProvider extends ItemProviderAdapter implements
 				 false,
 				 false,
 				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Diagrams feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected void addDiagramsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_GraphicalElement_diagrams_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GraphicalElement_diagrams_feature", "_UI_GraphicalElement_type"),
-				 SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__DIAGRAMS,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}

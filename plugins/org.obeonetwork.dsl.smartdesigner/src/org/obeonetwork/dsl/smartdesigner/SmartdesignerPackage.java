@@ -97,22 +97,13 @@ public interface SmartdesignerPackage extends EPackage {
 	int GRAPHICAL_ELEMENT__HIDDEN = 2;
 
 	/**
-	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRAPHICAL_ELEMENT__DIAGRAMS = 3;
-
-	/**
 	 * The number of structural features of the '<em>Graphical Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GRAPHICAL_ELEMENT_FEATURE_COUNT = 4;
+	int GRAPHICAL_ELEMENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl <em>Diagram</em>}' class.
@@ -134,40 +125,13 @@ public interface SmartdesignerPackage extends EPackage {
 	int DIAGRAM__ELEMENTS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAGRAM__NAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAGRAM__ID = 2;
-
-	/**
-	 * The feature id for the '<em><b>Diagrams</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DIAGRAM__DIAGRAMS = 3;
-
-	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = 4;
+	int DIAGRAM_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl <em>Document Root</em>}' class.
@@ -250,17 +214,6 @@ public interface SmartdesignerPackage extends EPackage {
 	EAttribute getGraphicalElement_Hidden();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.GraphicalElement#getDiagrams <em>Diagrams</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Diagrams</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.GraphicalElement#getDiagrams()
-	 * @see #getGraphicalElement()
-	 * @generated
-	 */
-	EReference getGraphicalElement_Diagrams();
-
-	/**
 	 * Returns the meta object for class '{@link org.obeonetwork.dsl.smartdesigner.Diagram <em>Diagram</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -280,39 +233,6 @@ public interface SmartdesignerPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDiagram_Elements();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getName()
-	 * @see #getDiagram()
-	 * @generated
-	 */
-	EAttribute getDiagram_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getId <em>Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Id</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getId()
-	 * @see #getDiagram()
-	 * @generated
-	 */
-	EAttribute getDiagram_Id();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.obeonetwork.dsl.smartdesigner.Diagram#getDiagrams <em>Diagrams</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Diagrams</em>'.
-	 * @see org.obeonetwork.dsl.smartdesigner.Diagram#getDiagrams()
-	 * @see #getDiagram()
-	 * @generated
-	 */
-	EReference getDiagram_Diagrams();
 
 	/**
 	 * Returns the meta object for class '{@link org.obeonetwork.dsl.smartdesigner.DocumentRoot <em>Document Root</em>}'.
@@ -403,14 +323,6 @@ public interface SmartdesignerPackage extends EPackage {
 		EAttribute GRAPHICAL_ELEMENT__HIDDEN = eINSTANCE.getGraphicalElement_Hidden();
 
 		/**
-		 * The meta object literal for the '<em><b>Diagrams</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GRAPHICAL_ELEMENT__DIAGRAMS = eINSTANCE.getGraphicalElement_Diagrams();
-
-		/**
 		 * The meta object literal for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DiagramImpl <em>Diagram</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -427,30 +339,6 @@ public interface SmartdesignerPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DIAGRAM__ELEMENTS = eINSTANCE.getDiagram_Elements();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM__NAME = eINSTANCE.getDiagram_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute DIAGRAM__ID = eINSTANCE.getDiagram_Id();
-
-		/**
-		 * The meta object literal for the '<em><b>Diagrams</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference DIAGRAM__DIAGRAMS = eINSTANCE.getDiagram_Diagrams();
 
 		/**
 		 * The meta object literal for the '{@link org.obeonetwork.dsl.smartdesigner.impl.DocumentRootImpl <em>Document Root</em>}' class.

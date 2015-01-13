@@ -28,7 +28,6 @@ import org.obeonetwork.dsl.smartdesigner.SmartdesignerPackage;
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.GraphicalElementImpl#getSemanticElement <em>Semantic Element</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.GraphicalElementImpl#getChild <em>Child</em>}</li>
  *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.GraphicalElementImpl#isHidden <em>Hidden</em>}</li>
- *   <li>{@link org.obeonetwork.dsl.smartdesigner.impl.GraphicalElementImpl#getDiagrams <em>Diagrams</em>}</li>
  * </ul>
  * </p>
  *
@@ -134,16 +133,6 @@ public class GraphicalElementImpl extends CDOObjectImpl implements GraphicalElem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public EList<Diagram> getDiagrams() {
-		return (EList<Diagram>)eDynamicGet(SmartdesignerPackage.GRAPHICAL_ELEMENT__DIAGRAMS, SmartdesignerPackage.Literals.GRAPHICAL_ELEMENT__DIAGRAMS, true, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -168,8 +157,6 @@ public class GraphicalElementImpl extends CDOObjectImpl implements GraphicalElem
 				return getChild();
 			case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
 				return isHidden();
-			case SmartdesignerPackage.GRAPHICAL_ELEMENT__DIAGRAMS:
-				return getDiagrams();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -193,10 +180,6 @@ public class GraphicalElementImpl extends CDOObjectImpl implements GraphicalElem
 			case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
 				setHidden((Boolean)newValue);
 				return;
-			case SmartdesignerPackage.GRAPHICAL_ELEMENT__DIAGRAMS:
-				getDiagrams().clear();
-				getDiagrams().addAll((Collection<? extends Diagram>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -218,9 +201,6 @@ public class GraphicalElementImpl extends CDOObjectImpl implements GraphicalElem
 			case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
 				setHidden(HIDDEN_EDEFAULT);
 				return;
-			case SmartdesignerPackage.GRAPHICAL_ELEMENT__DIAGRAMS:
-				getDiagrams().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -239,8 +219,6 @@ public class GraphicalElementImpl extends CDOObjectImpl implements GraphicalElem
 				return !getChild().isEmpty();
 			case SmartdesignerPackage.GRAPHICAL_ELEMENT__HIDDEN:
 				return isHidden() != HIDDEN_EDEFAULT;
-			case SmartdesignerPackage.GRAPHICAL_ELEMENT__DIAGRAMS:
-				return !getDiagrams().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
