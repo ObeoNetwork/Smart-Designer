@@ -18,10 +18,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.PlatformUI;
-import org.obeonetwork.dsl.smartdesigner.Diagram;
 import org.obeonetwork.dsl.smartdesigner.GraphicalElement;
-import org.obeonetwork.dsl.smartdesigner.design.popups.DeletePopup;
 import org.obeonetwork.dsl.smartdesigner.design.util.BasicDiagramUtil;
 
 import fr.obeo.dsl.viewpoint.DEdge;
@@ -134,11 +131,12 @@ public class DeleteGraphicalElement implements IExternalJavaAction {
 	 */
 	protected int deleteElement(GraphicalElement graphicalElement,
 			EObject semanticElement) {
-		DeletePopup dialog = new DeletePopup(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell());
-		dialog.setBlockOnOpen(true);
-		dialog.open();
-		return dialog.getResult();
+//		DeletePopup dialog = new DeletePopup(PlatformUI.getWorkbench()
+//				.getActiveWorkbenchWindow().getShell());
+//		dialog.setBlockOnOpen(true);
+//		dialog.open();
+//		return dialog.getResult();
+			return DeleteHook1.deleteCode;
 	}
 
 	/**
