@@ -183,13 +183,13 @@ public class ConnectorServices {
 		if (diagram == null) {
 			return new ArrayList<GraphicalElement>();
 		}
-
 		Set<GraphicalElement> resultSet = new HashSet<GraphicalElement>();
 		for (GraphicalElement ge : getAllGraphicalElements(diagram)) {
 			if (ge != graphicalElement) {
 				EObject sourceObject = graphicalElement.getSemanticElement();
 				EObject targetObject = ge.getSemanticElement();
-				if (compare(sourceObject, targetObject) > 0 && //
+				if (sourceObject != null && targetObject != null
+						&& compare(sourceObject, targetObject) > 0 && //
 						!isAncestor(graphicalElement, ge) && //
 						!isAncestor(ge, graphicalElement) && //
 						(//
@@ -204,24 +204,27 @@ public class ConnectorServices {
 		}
 		return new ArrayList<GraphicalElement>(resultSet);
 	}
-	
-	private boolean isAncestor(GraphicalElement potentialAncestor, GraphicalElement potentialChild) {
+
+	private boolean isAncestor(GraphicalElement potentialAncestor,
+			GraphicalElement potentialChild) {
 		if (potentialAncestor == potentialChild) {
 			return true;
 		} else {
 			EObject childContainer = potentialChild.eContainer();
-			if (childContainer != null &&  childContainer instanceof GraphicalElement) {
+			if (childContainer != null
+					&& childContainer instanceof GraphicalElement) {
 				if (childContainer == potentialAncestor) {
 					return true;
 				} else {
-					return isAncestor(potentialAncestor, (GraphicalElement)childContainer);
+					return isAncestor(potentialAncestor,
+							(GraphicalElement) childContainer);
 				}
 			} else {
 				return false;
 			}
 		}
 	}
-	
+
 	private Collection<GraphicalElement> getAllGraphicalElements(Diagram diagram) {
 		Collection<GraphicalElement> elements = new ArrayList<GraphicalElement>();
 		elements.addAll(diagram.getElements());
@@ -230,8 +233,9 @@ public class ConnectorServices {
 		}
 		return elements;
 	}
-	
-	private Collection<GraphicalElement> getAllGraphicalElements(GraphicalElement graphicalElement) {
+
+	private Collection<GraphicalElement> getAllGraphicalElements(
+			GraphicalElement graphicalElement) {
 		Collection<GraphicalElement> elements = new ArrayList<GraphicalElement>();
 		elements.addAll(graphicalElement.getChild());
 		for (GraphicalElement child : graphicalElement.getChild()) {
@@ -250,7 +254,8 @@ public class ConnectorServices {
 					EObject sourceObject = graphicalElement
 							.getSemanticElement();
 					EObject targetObject = ge.getSemanticElement();
-					if (compare(sourceObject, targetObject) > 0 && //
+					if (sourceObject != null && targetObject != null
+							&& compare(sourceObject, targetObject) > 0 && //
 							!isAncestor(graphicalElement, ge) && //
 							!isAncestor(ge, graphicalElement) && //
 							(//
@@ -336,7 +341,7 @@ public class ConnectorServices {
 		int result = ((CDOObject) sourceObject).cdoID().compareTo(
 				((CDOObject) targetObject).cdoID());
 		return result;
-//		return sourceObject.toString().compareTo(targetObject.toString());
+		// return sourceObject.toString().compareTo(targetObject.toString());
 	}
 
 	/**
